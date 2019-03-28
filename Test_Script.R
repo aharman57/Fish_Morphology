@@ -8,6 +8,8 @@ library(corrplot)
 library(broom.mixed)
 library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())
+library(car)
+library(geomorph)
 
 Morph <- (read_csv(file="Morph_Data.csv")
           %>% rename(Age="Age (dph)",
@@ -16,14 +18,6 @@ Morph <- (read_csv(file="Morph_Data.csv")
                      Yolk="Yolk weight",
                      Jaw="Jaw Gape")
 )
-
-Treatment <- Morph$Treatment
-Age <- Morph$Age
-Eye <- Morph$Eye
-Fin <- Morph$Fin
-Yolk <- Morph$Yolk
-Jaw <- Morph$Jaw
-Length <- Morph$Length
 
 
 ### is this relevant/important??? ###
