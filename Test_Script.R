@@ -2,6 +2,12 @@
 
 
 library(tidyverse)
+library(MCMCglmm)
+library(lme4)
+library(corrplot)
+library(broom.mixed)
+library(dotwhisker)
+library(ggplot2); theme_set(theme_bw())
 
 Morph <- (read_csv(file="Morph_Data.csv")
           %>% rename(Age="Age (dph)",
