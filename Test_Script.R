@@ -27,12 +27,8 @@ Length <- Morph$Length
 
 
 ### is this relevant/important??? ###
-covariance1 = cov(Length,Age)
+covariance1 = cov(Morph)
 print(covariance1)
-covariance2 = cov(Length,Treatment)
-print(covariance2)
-covariance3 = cov(Length,Yolk)
-print(covariance3)
 
 ### correlation matrix for all predictor variables ###
 correlation1 = cor(Morph)
