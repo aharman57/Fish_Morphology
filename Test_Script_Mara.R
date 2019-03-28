@@ -16,6 +16,13 @@ Morph <- (read_csv(file="Morph_Data.csv")
                      Jaw="Jaw Gape")
 )
 
+#covariance matrix of response traits:
+cov(Morph[,3:11])
+cor(Morph[,3:11])
+
+pairs(Morph[, 3:11],
+      pch = ".", gap = 0)
+
 #scale response variables of interest:
 Morphdata2 <- Morph %>%
   mutate(Length = scale(Length), Eye = scale(Eye), `Yolk volume` = scale(`Yolk volume`), Fin = scale(Fin), `Body weight` = scale(`Body weight`), Jaw = scale(Jaw), Yolk = scale(Yolk))
