@@ -15,7 +15,7 @@ Morph_clean <- as.numeric(Morph_clean$`Measure Dorsal Fin Anterior Maximum`)
 Morph_clean <- as.numeric(Morph_clean$`Measure Dorsal Fin Minimum`)
 Morph_clean <- as.numeric(Morph_clean$`Measure Dorsal Fin Posterior Maximum`)
 Morph_clean <- as.numeric(Morph_clean$`Measure Yolk Width`)
-Morph_clean <- as.numeric(Morph_clean$`Measure Yolk Height`)
+Morph_clean <- as.numeric(Morph_clean$"Measure Yolk Height")
        
 ### is this relevant/important??? ###
 covariance1 = cov(Morph[,3:17])
