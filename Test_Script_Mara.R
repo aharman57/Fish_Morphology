@@ -61,6 +61,13 @@ Morph_scaled <- (Morph_clean
                  )
 )
 
+mlm_fit1 <- lm(as.matrix(Morph_scaled[,1:12]) ~ Treatment*age, data = Morph_scaled)
+class(mlm_fit1) #not sure if we need this
+summary(manova(mlm_fit1), test = "Wilks")
+
+
+
+#for lmer (but we may just be able to use simple linear model from first lecture slide?)
 Morph_melt <- (Morph_scaled
              %>% mutate(units=factor(1:n()))
              %>% gather(trait,value, -c(units, age, Treatment))
@@ -72,9 +79,9 @@ Morph_melt <- (Morph_scaled
 #they will be dropped
 #not sure if this is a problem?
 
-#fit linear model:
+#fit linear model (this didn't work):
 t1 <- system.time(
-  lmer1 <- lmer(value ~ trait:(Age*Treatment) - 1 +
+  lmer1 <- lmer(value ~ trait:(age*Treatment) - 1 +
                   (trait-1|units),
                 data=Morph_melt,
                 control=lmerControl(optCtrl=list(ftol_abs=1e-10),
