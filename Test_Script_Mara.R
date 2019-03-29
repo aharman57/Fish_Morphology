@@ -25,16 +25,17 @@ Morph_clean <- (Morph
                      Yolk_Weight = "yolk weight"
           )
           %>% na.omit()
-          %>% as.numeric(Fin_Anterior)
 )
 
-Morph_clean <- (Morph_clean
-                %>% as.numeric("Fin_Anterior")
-)
-for (i in 1:13) {
-  Morph_clean[,i] <- as.numeric(Morph_clean[,i])
-}
-as.numeric(Morph_clean$Body_Weight)
+Morph_clean$Fin_Anterior <- as.numeric(Morph_clean$Fin_Anterior)
+Morph_clean$Fin_Min <- as.numeric(Morph_clean$Fin_Min)
+Morph_clean$Fin_Posterior <- as.numeric(Morph_clean$Fin_Posterior)
+Morph_clean$Yolk_Width <- as.numeric(Morph_clean$Yolk_Width)
+Morph_clean$Yolk_Height <- as.numeric(Morph_clean$Yolk_Height)
+
+#next: need to convert treatment groups to factor or numeric after dealing with different names for same treatment
+
+
 #covariance matrix of response traits:
 cov(Morph[,3:11])
 cor(Morph[,3:11])
