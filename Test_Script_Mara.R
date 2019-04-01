@@ -66,11 +66,26 @@ Morph_scaled <- (Morph_clean
                  )
 )
 
+#eigenvalues after scaling:
+eig_vals_scaled <- svd(cov(Morph_scaled[, 1:12]))$d
+prod(eig_vals_scaled)
+det(cov(Morph_scaled[, 1:12]))
+sum(eig_vals_scaled)
+sum(diag(cov(Morph_scaled[, 1:12])))
+
 mlm_fit1 <- lm(as.matrix(Morph_scaled[,1:12]) ~ Treatment*age, data = Morph_scaled)
-class(mlm_fit1) #not sure if we need this
 summary(manova(mlm_fit1), test = "Wilks")
+coef(mlm_fit1)
 
+#magnitude of treatment and age constrast vectors - but what does this really mean?
+sqrt(t(coef(mlm_fit1)[2,]) %*% coef(mlm_fit1)[2,])
+sqrt(t(coef(mlm_fit1)[3,]) %*% coef(mlm_fit1)[3,])
 
+#code for coefficient of determination:
+sum(diag(cov(Morph_scaled[,1:12])))
+sum(diag(cov(mlm_fit1$fitted)))
+sum(diag(cov(mlm_fit1$fitted)))/sum(diag(cov(Morph_scaled[,1:12])))
+#seems like a very high number
 
 #for lmer (but we may just be able to use simple linear model from first lecture slide?)
 Morph_melt <- (Morph_scaled
