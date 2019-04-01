@@ -80,12 +80,16 @@ coef(mlm_fit1)
 #magnitude of treatment and age constrast vectors - but what does this really mean?
 sqrt(t(coef(mlm_fit1)[2,]) %*% coef(mlm_fit1)[2,])
 sqrt(t(coef(mlm_fit1)[3,]) %*% coef(mlm_fit1)[3,])
+sqrt(t(coef(mlm_fit1)[3,]) %*% coef(mlm_fit1)[4,]) #this didn't work for some reason?
 
 #code for coefficient of determination:
 sum(diag(cov(Morph_scaled[,1:12])))
 sum(diag(cov(mlm_fit1$fitted)))
 sum(diag(cov(mlm_fit1$fitted)))/sum(diag(cov(Morph_scaled[,1:12])))
 #seems like a very high number
+
+#also try geomorph models??
+#also need to check model assumptions somehow?
 
 #for lmer (but we may just be able to use simple linear model from first lecture slide?)
 Morph_melt <- (Morph_scaled
