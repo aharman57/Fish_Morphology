@@ -42,6 +42,10 @@ cor(Morph_clean[,1:12])
 pairs(Morph_clean[, 1:12],
       pch = ".", gap = 0)
 
+scatterplotMatrix( ~ Length + Eye + Fin_Anterior + Fin_Min | interaction(Treatment, age), 
+                   ellipse = TRUE, data = Morph_clean, gap = 0,
+                   plot.points = T, pch = 20, cex  = 0.5)
+
 #should we have scaled first?
 eig_vals <- svd(cov(Morph_clean[, 1:12]))$d
 prod(eig_vals)
@@ -80,7 +84,7 @@ coef(mlm_fit1)
 #magnitude of treatment and age constrast vectors - but what does this really mean?
 sqrt(t(coef(mlm_fit1)[2,]) %*% coef(mlm_fit1)[2,])
 sqrt(t(coef(mlm_fit1)[3,]) %*% coef(mlm_fit1)[3,])
-sqrt(t(coef(mlm_fit1)[3,]) %*% coef(mlm_fit1)[4,]) #this didn't work for some reason?
+sqrt(t(coef(mlm_fit1)[4,]) %*% coef(mlm_fit1)[4,]) #this didn't work for some reason?
 
 #code for coefficient of determination:
 sum(diag(cov(Morph_scaled[,1:12])))
@@ -88,14 +92,13 @@ sum(diag(cov(mlm_fit1$fitted)))
 sum(diag(cov(mlm_fit1$fitted)))/sum(diag(cov(Morph_scaled[,1:12])))
 #seems like a very high number
 
-#also try geomorph models??
-#also need to check model assumptions somehow?
-
 #geomorph model:
 mlm_fit2 <- procD.lm(f1 = Morph_scaled[, 1:12] ~ Treatment*age, 
                      data = Morph_scaled, iter = 2000 )
 summary(mlm_fit2)
 coef(mlm_fit2)
+
+#also need to check model assumptions somehow?
 
 #for lmer (but we may just be able to use simple linear model from first lecture slide?)
 Morph_melt <- (Morph_scaled
@@ -129,4 +132,4 @@ print(covariance1)
 ### correlation matrix for all predictor variables ###
 correlation1 = cor(Morph)
 print(correlation1)
-### shows that body weight and eye diameter are most correlated variables ###
+# test test ### shows that body weight and eye diameter are most correlated variables ###
