@@ -34,8 +34,6 @@ Morph_clean$Fin_Posterior <- as.numeric(Morph_clean$Fin_Posterior)
 Morph_clean$Yolk_Width <- as.numeric(Morph_clean$Yolk_Width)
 Morph_clean$Yolk_Height <- as.numeric(Morph_clean$Yolk_Height)
 
-#next: need to convert treatment groups to factor or numeric after dealing with different names for same treatment
-
 
 #covariance matrix of response traits:
 cov(Morph_clean[,1:12])
@@ -43,6 +41,13 @@ cor(Morph_clean[,1:12])
 
 pairs(Morph_clean[, 1:12],
       pch = ".", gap = 0)
+
+#should we have scaled first?
+eig_vals <- svd(cov(Morph_clean[, 1:12]))$d
+prod(eig_vals)
+det(cov(Morph_clean[, 1:12]))
+sum(eig_vals)
+sum(diag(cov(Morph_clean[, 1:12])))
 
 #scale response variables of interest:
 Morph_scaled <- (Morph_clean
