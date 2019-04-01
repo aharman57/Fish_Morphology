@@ -91,6 +91,12 @@ sum(diag(cov(mlm_fit1$fitted)))/sum(diag(cov(Morph_scaled[,1:12])))
 #also try geomorph models??
 #also need to check model assumptions somehow?
 
+#geomorph model:
+mlm_fit2 <- procD.lm(f1 = Morph_scaled[, 1:12] ~ Treatment*age, 
+                     data = Morph_scaled, iter = 2000 )
+summary(mlm_fit2)
+coef(mlm_fit2)
+
 #for lmer (but we may just be able to use simple linear model from first lecture slide?)
 Morph_melt <- (Morph_scaled
              %>% mutate(units=factor(1:n()))
