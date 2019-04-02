@@ -10,13 +10,12 @@ library(geomorph)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
 Morph_clean <- (Morph
-          %>% select(-c(1:2, 4, 16:17, 20:25)) #got rid of other variables we probably won't use
+          %>% select(-c(1:2, 4, 9, 16:17, 20:25)) #got rid of other variables we probably won't use
           %>% rename(Length = "Length (mm)",
                      Eye = "Eye size (mm)",
                      Fin_Anterior = "Measure Dorsal Fin Anterior Maximum",
                      Fin_Min = "Measure Dorsal Fin Minimum",
                      Fin_Posterior = "Measure Dorsal Fin Posterior Maximum",
-                     Fin_Indent = "Fin indentation ratio",
                      Yolk_Width ="Measure Yolk Width",
                      Yolk_Height = "Measure Yolk Height",
                      Yolk_Vol = "Yolk volume (mm2)",
@@ -124,16 +123,3 @@ t1 <- system.time(
 )
 
 summary(lmer1)
-
-### is this relevant/important??? ###
-covariance1 = cov(Morph)
-print(covariance1)
-
-### correlation matrix for all predictor variables ###
-correlation1 = cor(Morph)
-
-print(correlation1) 
-
-print(correlation1) #break
-
-# test test ### shows that body weight and eye diameter are most correlated variables ###
