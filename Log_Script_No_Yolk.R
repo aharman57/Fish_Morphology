@@ -71,6 +71,7 @@ sum(diag(cov(mlm_fit1_log$fitted)))/sum(diag(cov(Morph_log[,1:7])))
 #model accounts for 66% of variance? seems high
 
 #figure out if we need to do permutation test stuff to assess whether data conform to assumptions
+#visualization: library(emmeans), library(dotwhisker), library(effects), dwplot(model), plot(allEffects(model)), plot(emmeans(model,~predictor))
 
 #geomorph model:
 mlm_fit2_log <- procD.lm(f1 = Morph_log[, 1:7] ~ Treatment*age, 
