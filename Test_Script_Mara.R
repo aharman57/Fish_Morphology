@@ -35,22 +35,23 @@ Morph_clean$Yolk_Height <- as.numeric(Morph_clean$Yolk_Height)
 
 
 #covariance matrix of response traits:
-cov(Morph_clean[,1:12])
-cor(Morph_clean[,1:12])
+cov(Morph_clean[,1:11])
+cor(Morph_clean[,1:11])
 
-pairs(Morph_clean[, 1:12],
+pairs(Morph_clean[, 1:11],
       pch = ".", gap = 0)
 
+#this plot is weird and not working - maybe remove
 scatterplotMatrix( ~ Length + Eye + Fin_Anterior + Fin_Min | interaction(Treatment, age), 
                    ellipse = TRUE, data = Morph_clean, gap = 0,
                    plot.points = T, pch = 20, cex  = 0.5)
 
 #should we have scaled first?
-eig_vals <- svd(cov(Morph_clean[, 1:12]))$d
+eig_vals <- svd(cov(Morph_clean[, 1:11]))$d
 prod(eig_vals)
-det(cov(Morph_clean[, 1:12]))
+det(cov(Morph_clean[, 1:11]))
 sum(eig_vals)
-sum(diag(cov(Morph_clean[, 1:12])))
+sum(diag(cov(Morph_clean[, 1:11])))
 
 #scale response variables of interest:
 Morph_scaled <- (Morph_clean
@@ -59,7 +60,6 @@ Morph_scaled <- (Morph_clean
                             Fin_Anterior = scale(Fin_Anterior),
                             Fin_Min = scale(Fin_Min),
                             Fin_Posterior = scale(Fin_Posterior),
-                            Fin_Indent = scale(Fin_Indent),
                             Yolk_Width = scale(Yolk_Width),
                             Yolk_Height = scale(Yolk_Height),
                             Yolk_Vol = scale(Yolk_Vol),
@@ -70,29 +70,29 @@ Morph_scaled <- (Morph_clean
 )
 
 #eigenvalues after scaling:
-eig_vals_scaled <- svd(cov(Morph_scaled[, 1:12]))$d
+eig_vals_scaled <- svd(cov(Morph_scaled[, 1:11]))$d
 prod(eig_vals_scaled)
-det(cov(Morph_scaled[, 1:12]))
+det(cov(Morph_scaled[, 1:11]))
 sum(eig_vals_scaled)
-sum(diag(cov(Morph_scaled[, 1:12])))
+sum(diag(cov(Morph_scaled[, 1:11])))
 
-mlm_fit1 <- lm(as.matrix(Morph_scaled[,1:12]) ~ Treatment*age, data = Morph_scaled)
+mlm_fit1 <- lm(as.matrix(Morph_scaled[,1:11]) ~ Treatment*age, data = Morph_scaled)
 summary(manova(mlm_fit1), test = "Wilks")
 coef(mlm_fit1)
 
 #magnitude of treatment and age constrast vectors - but what does this really mean?
 sqrt(t(coef(mlm_fit1)[2,]) %*% coef(mlm_fit1)[2,])
 sqrt(t(coef(mlm_fit1)[3,]) %*% coef(mlm_fit1)[3,])
-sqrt(t(coef(mlm_fit1)[4,]) %*% coef(mlm_fit1)[4,]) #this didn't work for some reason?
+sqrt(t(coef(mlm_fit1)[4,]) %*% coef(mlm_fit1)[4,])
 
 #code for coefficient of determination:
-sum(diag(cov(Morph_scaled[,1:12])))
+sum(diag(cov(Morph_scaled[,1:11])))
 sum(diag(cov(mlm_fit1$fitted)))
-sum(diag(cov(mlm_fit1$fitted)))/sum(diag(cov(Morph_scaled[,1:12])))
+sum(diag(cov(mlm_fit1$fitted)))/sum(diag(cov(Morph_scaled[,1:11])))
 #seems like a very high number
 
 #geomorph model:
-mlm_fit2 <- procD.lm(f1 = Morph_scaled[, 1:12] ~ Treatment*age, 
+mlm_fit2 <- procD.lm(f1 = Morph_scaled[, 1:11] ~ Treatment*age, 
                      data = Morph_scaled, iter = 2000 )
 summary(mlm_fit2)
 coef(mlm_fit2)
