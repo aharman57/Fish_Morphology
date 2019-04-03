@@ -17,6 +17,9 @@ Morph_clean_yolk <- (Morph
                                 Yolk_Weight = "yolk weight",
                                 Treatment = "treatment group"
                      )
+                     %>% mutate(Yolk_Width = (Yolk_Width/1000),
+                                Yolk_Height = (Yolk_Height/1000)
+                     )
                      %>% na.omit()
                      %>% filter(age != 28) #may need to filter out 14 days too or else remove yolk weight
 )
