@@ -59,7 +59,7 @@ prod(eig_vals_log)
 sum(eig_vals_log)
 
 mlm_fit1_log <- lm(as.matrix(Morph_log[,1:7]) ~ Treatment*age, data = Morph_log)
-plot.(mlm_fit1_log)
+#insert diagnostic plots here
 summary(manova(mlm_fit1_log), test = "Wilks")
 coef(mlm_fit1_log)
 exp(coef(mlm_fit1_log)) #back-transform to get biologically relevant effects
