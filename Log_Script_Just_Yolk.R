@@ -23,7 +23,8 @@ Morph_clean_yolk <- (Morph
 
 #covariance matrix of response traits:
 cov(Morph_clean_yolk[,1:4])
-cor(Morph_clean_yolk[,1:4])
+cormatrix_yolk <- (Morph_clean_yolk[,1:4])
+corrplot(cormatrix_yolk, method = "circle") #fix something here
 
 pairs(Morph_clean_yolk[, 1:4],
       pch = ".", gap = 0)
