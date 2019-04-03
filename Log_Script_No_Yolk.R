@@ -7,6 +7,9 @@ library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())
 library(car)
 library(geomorph)
+library(emmeans)
+library(dotwhisker)
+library(effects)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
 Morph_clean_body <- (Morph
@@ -71,7 +74,10 @@ sum(diag(cov(mlm_fit1_log$fitted)))/sum(diag(cov(Morph_log[,1:7])))
 #model accounts for 66% of variance? seems high
 
 #figure out if we need to do permutation test stuff to assess whether data conform to assumptions
-#visualization: library(emmeans), library(dotwhisker), library(effects), dwplot(model), plot(allEffects(model)), plot(emmeans(model,~predictor))
+#visualization:
+dwplot(mlm_fit1_log) #this one doesn't work for some reason
+plot(allEffects(mlm_fit1_log)) #this sort of works - maybe try to fix it up a bit
+plot(emmeans(mlm_fit1_log,~Treatment)) #this is useless
 
 #geomorph model:
 mlm_fit2_log <- procD.lm(f1 = Morph_log[, 1:7] ~ Treatment*age, 
