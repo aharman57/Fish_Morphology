@@ -32,7 +32,8 @@ Morph_clean_body$Fin_Posterior <- as.numeric(Morph_clean_body$Fin_Posterior)
 
 #covariance matrix of response traits:
 cov(Morph_clean_body[,1:7])
-cor(Morph_clean_body[,1:7])
+cormatrix <- cor(Morph_clean_body[,1:7])
+corrplot(cormatrix, method = "circle")
 
 pairs(Morph_clean_body[, 1:7],
       pch = ".", gap = 0)
