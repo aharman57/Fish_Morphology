@@ -25,7 +25,7 @@ Morph_clean_yolk <- (Morph
 
 #covariance matrix of response traits:
 cov(Morph_clean_yolk[,1:3])
-cormatrix_yolk <- (Morph_clean_yolk[,1:3])
+cormatrix_yolk <- cor(Morph_clean_yolk[,1:3])
 corrplot(cormatrix_yolk, method = "circle") #fix something here
 
 pairs(Morph_clean_yolk[, 1:3],
@@ -33,9 +33,9 @@ pairs(Morph_clean_yolk[, 1:3],
 
 #logging variables instead of scaling:
 Morph_log_yolk <- (Morph_clean_yolk
-              %>% mutate(Yolk_Width = log(Yolk_Width),
-                         Yolk_Height = log(Yolk_Height),
-                         Yolk_Weight = log(Yolk_Weight)
+              %>% mutate(Yolk_Width = log(Yolk_Width+1),
+                         Yolk_Height = log(Yolk_Height+1),
+                         Yolk_Weight = log(Yolk_Weight+1)
               )
 )
 
@@ -61,7 +61,7 @@ sqrt(t(coef(mlm_fit1_log_yolk)[4,]) %*% coef(mlm_fit1_log_yolk)[4,])
 sum(diag(cov(Morph_log_yolk[,1:3])))
 sum(diag(cov(mlm_fit1_log_yolk$fitted)))
 sum(diag(cov(mlm_fit1_log_yolk$fitted)))/sum(diag(cov(Morph_log_yolk[,1:3])))
-#model accounts for 66% of variance? seems high
+#model accounts for 57% of variance? seems high
 
 #figure out if we need to do permutation test stuff to assess whether data conform to assumptions
 #visualization:
