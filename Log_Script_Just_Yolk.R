@@ -62,6 +62,11 @@ sum(diag(cov(mlm_fit1_log_yolk$fitted)))/sum(diag(cov(Morph_log_yolk[,1:4])))
 #model accounts for 66% of variance? seems high
 
 #figure out if we need to do permutation test stuff to assess whether data conform to assumptions
+#visualization:
+dwplot(mlm_fit1_log_yolk) #this one doesn't work for some reason
+plot(allEffects(mlm_fit1_log_yolk)) #this sort of works - maybe try to fix it up a bit
+plot(emmeans(mlm_fit1_log_yolk, ~Treatment)) #this is useless
+#is a ggplot possible?
 
 #geomorph model:
 mlm_fit2_log_yolk <- procD.lm(f1 = Morph_log_yolk[, 1:4] ~ Treatment*age, 
