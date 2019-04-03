@@ -78,6 +78,7 @@ sum(diag(cov(mlm_fit1_log$fitted)))/sum(diag(cov(Morph_log[,1:7])))
 dwplot(mlm_fit1_log) #this one doesn't work for some reason
 plot(allEffects(mlm_fit1_log)) #this sort of works - maybe try to fix it up a bit
 plot(emmeans(mlm_fit1_log,~Treatment)) #this is useless
+#is a ggplot possible?
 
 #geomorph model:
 mlm_fit2_log <- procD.lm(f1 = Morph_log[, 1:7] ~ Treatment*age, 
