@@ -62,6 +62,7 @@ mlm_fit1_log <- lm(as.matrix(Morph_log[,1:7]) ~ Treatment*age, data = Morph_log)
 plot.(mlm_fit1_log)
 summary(manova(mlm_fit1_log), test = "Wilks")
 coef(mlm_fit1_log)
+exp(coef(mlm_fit1_log)) #back-transform to get biologically relevant effects
 #would need to back-transform effect sizes to get to biologically relevant scale - see class lecture slides
 
 #magnitude of treatment and age constrast vectors - but what does this really mean?
