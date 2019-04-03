@@ -102,7 +102,7 @@ coef(mlm_fit2)
 #for lmer (but we may just be able to use simple linear model from first lecture slide?)
 Morph_melt <- (Morph_scaled
              %>% mutate(units=factor(1:n()))
-             %>% gather(trait,value, -c(units, age, Treatment))
+             %>% gather(trait, value, -c(units, age, Treatment))
              %>% drop_na() #may not need this if we already omitted
              %>% arrange(units)
 )
