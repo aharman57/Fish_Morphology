@@ -69,7 +69,7 @@ dwplot(mlm_fit1_log_yolk) #this one doesn't work for some reason
 plot(allEffects(mlm_fit1_log_yolk)) #this sort of works - maybe try to fix it up a bit
 plot(emmeans(mlm_fit1_log_yolk, ~Treatment)) #this is useless
 #is a ggplot possible?
-
+ 
 #geomorph model:
 mlm_fit2_log_yolk <- procD.lm(f1 = Morph_log_yolk[, 1:3] ~ Treatment*age, 
                          data = Morph_log_yolk, iter = 2000 )

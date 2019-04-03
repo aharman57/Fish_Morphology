@@ -76,6 +76,7 @@ sum(diag(cov(mlm_fit1_log$fitted)))/sum(diag(cov(Morph_log[,1:7])))
 
 #figure out if we need to do permutation test stuff to assess whether data conform to assumptions
 #visualization:
+
 dwplot(mlm_fit1_log) #this one doesn't work for some reason
 plot(allEffects(mlm_fit1_log)) #this sort of works - maybe try to fix it up a bit - issue with ages
 plot(emmeans(mlm_fit1_log,~Treatment)) #this is useless
