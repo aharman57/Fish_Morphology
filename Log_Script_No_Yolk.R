@@ -29,6 +29,7 @@ Morph_clean_body <- (Morph
 Morph_clean_body$Fin_Anterior <- as.numeric(Morph_clean_body$Fin_Anterior)
 Morph_clean_body$Fin_Min <- as.numeric(Morph_clean_body$Fin_Min)
 Morph_clean_body$Fin_Posterior <- as.numeric(Morph_clean_body$Fin_Posterior)
+Morph_clean_body$Treatment <- as.factor(Morph_clean_body$Treatment)
 
 #covariance matrix of response traits:
 cov(Morph_clean_body[,1:7])
@@ -46,7 +47,7 @@ Morph_log <- (Morph_clean_body
                          Fin_Min = log(Fin_Min),
                          Fin_Posterior = log(Fin_Posterior),
                          Jaw = log(Jaw),
-                         Body_Weight = log(Body_Weight),
+                         Body_Weight = log(Body_Weight)
               )
 )
 
@@ -58,12 +59,28 @@ eig_vals_log <- svd(cov(Morph_log[, 1:7]))$d
 prod(eig_vals_log)
 sum(eig_vals_log)
 
+#diagnostic plots for separate models:
+model_length <- lm(Length ~ Treatment*age, data=Morph_log)
+plot(model_length)
+model_eye <- lm(Eye ~ Treatment*age, data=Morph_log)
+plot(model_eye)
+model_fin_anterior <- lm(Fin_Anterior ~ Treatment*age, data=Morph_log)
+plot(model_fin_anterior) #were there zero values in fin anterior because I think there was an issue logging this though the multivariate model didn't seem to care
+model_fin_min <- lm(Fin_Min ~ Treatment*age, data=Morph_log)
+plot(model_fin_min)
+model_fin_posterior <- lm(Fin_Posterior ~ Treatment*age, data = Morph_log)
+plot(model_fin_posterior)
+model_jaw <- lm(Jaw ~ Treatment*age, data=Morph_log)
+plot(model_jaw)
+model_weight <- lm(Body_Weight ~ Treatment*age, data = Morph_log)
+plot(model_weight)
+
+#multivariate model
 mlm_fit1_log <- lm(as.matrix(Morph_log[,1:7]) ~ Treatment*age, data = Morph_log)
 #insert diagnostic plots here
 summary(manova(mlm_fit1_log), test = "Wilks")
 coef(mlm_fit1_log)
 exp(coef(mlm_fit1_log)) #back-transform to get biologically relevant effects
-#would need to back-transform effect sizes to get to biologically relevant scale - see class lecture slides
 
 #magnitude of treatment and age constrast vectors - but what does this really mean?
 sqrt(t(coef(mlm_fit1_log)[2,]) %*% coef(mlm_fit1_log)[2,])

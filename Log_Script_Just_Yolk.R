@@ -17,7 +17,8 @@ Morph_clean_yolk <- (Morph
                                 Treatment = "treatment group"
                      )
                      %>% mutate(Yolk_Width = (Yolk_Width/1000),
-                                Yolk_Height = (Yolk_Height/1000)
+                                Yolk_Height = (Yolk_Height/1000),
+                                Treatment = as.factor(Treatment)
                      )
                      %>% na.omit()
                      %>% filter(age != 28, age != 14)
@@ -32,49 +33,59 @@ pairs(Morph_clean_yolk[, 1:3],
       pch = ".", gap = 0)
 
 #logging variables instead of scaling:
-Morph_log_yolk <- (Morph_clean_yolk
-              %>% mutate(Yolk_Width = log(Yolk_Width+1),
-                         Yolk_Height = log(Yolk_Height+1),
-                         Yolk_Weight = log(Yolk_Weight+1)
+Morph_scale_yolk <- (Morph_clean_yolk
+              %>% mutate(Yolk_Width = scale(Yolk_Width),
+                         Yolk_Height = scale(Yolk_Height),
+                         Yolk_Weight = scale(Yolk_Weight)
               )
 )
 
-pairs(Morph_log_yolk[, 1:3],
+pairs(Morph_scale_yolk[, 1:3],
       pch = ".", gap = 0)
 
 #eigenvalues after logging - need to deal with zeros in weight first:
-eig_vals_log_yolk <- svd(cov(Morph_log_yolk[, 1:3]))$d
-prod(eig_vals_log_yolk)
-sum(eig_vals_log_yolk)
+eig_vals_scale_yolk <- svd(cov(Morph_scale_yolk[, 1:3]))$d
+prod(eig_vals_scale_yolk)
+sum(eig_vals_scale_yolk)
 
-mlm_fit1_log_yolk <- lm(as.matrix(Morph_log_yolk[,1:3]) ~ Treatment*age, data = Morph_log_yolk)
-summary(manova(mlm_fit1_log_yolk), test = "Wilks")
-coef(mlm_fit1_log_yolk)
-#would need to back-transform effect sizes to get to biologically relevant scale - see class lecture slides
+#diagnostic plots for separate linear models:
+model_yolkwidth <- lm(Yolk_Width ~ Treatment*age, data= Morph_scale_yolk)
+plot(model_yolkwidth)
+model_yolkheight <- lm(Yolk_Height ~ Treatment*age, data=Morph_scale_yolk)
+plot(model_yolkheight) #issue here with invalid value - missing value?
+model_yolkweight <- lm(Yolk_Weight ~ Treatment*age, data = Morph_scale_yolk)
+plot(model_yolkweight) #some heteroskedasticity here...but can't really deal with it unless we log...could try and see if it makes a difference
+
+#multivariate model:
+mlm_fit1_scale_yolk <- lm(as.matrix(Morph_scale_yolk[,1:3]) ~ Treatment*age, data = Morph_scale_yolk)
+summary(manova(mlm_fit1_scale_yolk), test = "Wilks")
+coef(mlm_fit1_scale_yolk)
+#how to back-transform effect sizes when they are scaled?
+#now that treatment is a factor, shouldn't it show the different levels (contrasts from baseline?)
 
 #magnitude of treatment and age constrast vectors - but what does this really mean?
-sqrt(t(coef(mlm_fit1_log_yolk)[2,]) %*% coef(mlm_fit1_log_yolk)[2,])
-sqrt(t(coef(mlm_fit1_log_yolk)[3,]) %*% coef(mlm_fit1_log_yolk)[3,])
-sqrt(t(coef(mlm_fit1_log_yolk)[4,]) %*% coef(mlm_fit1_log_yolk)[4,])
+sqrt(t(coef(mlm_fit1_scale_yolk)[2,]) %*% coef(mlm_fit1_scale_yolk)[2,])
+sqrt(t(coef(mlm_fit1_scale_yolk)[3,]) %*% coef(mlm_fit1_scale_yolk)[3,])
+sqrt(t(coef(mlm_fit1_scale_yolk)[4,]) %*% coef(mlm_fit1_scale_yolk)[4,])
 
 #code for coefficient of determination:
-sum(diag(cov(Morph_log_yolk[,1:3])))
-sum(diag(cov(mlm_fit1_log_yolk$fitted)))
-sum(diag(cov(mlm_fit1_log_yolk$fitted)))/sum(diag(cov(Morph_log_yolk[,1:3])))
-#model accounts for 57% of variance? seems high
+sum(diag(cov(Morph_scale_yolk[,1:3])))
+sum(diag(cov(mlm_fit1_scale_yolk$fitted)))
+sum(diag(cov(mlm_fit1_scale_yolk$fitted)))/sum(diag(cov(Morph_scale_yolk[,1:3])))
+#model accounts for 52% of variance
 
 #figure out if we need to do permutation test stuff to assess whether data conform to assumptions
 #visualization:
-dwplot(mlm_fit1_log_yolk) #this one doesn't work for some reason
-plot(allEffects(mlm_fit1_log_yolk)) #this sort of works - maybe try to fix it up a bit
-plot(emmeans(mlm_fit1_log_yolk, ~Treatment)) #this is useless
+dwplot(mlm_fit1_scale_yolk) #this one doesn't work for some reason
+plot(allEffects(mlm_fit1_scale_yolk)) #this sort of works - maybe try to fix it up a bit
+plot(emmeans(mlm_fit1_scale_yolk, ~Treatment)) #this is useless
 #is a ggplot possible?
  
 #geomorph model:
-mlm_fit2_log_yolk <- procD.lm(f1 = Morph_log_yolk[, 1:3] ~ Treatment*age, 
-                         data = Morph_log_yolk, iter = 2000 )
-summary(mlm_fit2_log_yolk)
-coef(mlm_fit2_log_yolk)
+mlm_fit2_scale_yolk <- procD.lm(f1 = Morph_scale_yolk[, 1:3] ~ Treatment*age, 
+                         data = Morph_scale_yolk, iter = 2000 )
+summary(mlm_fit2_scale_yolk)
+coef(mlm_fit2_scale_yolk)
 #this basically gives same answer as first model
 
 #create coefficient plots?
