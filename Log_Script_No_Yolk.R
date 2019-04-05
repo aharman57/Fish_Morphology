@@ -30,6 +30,7 @@ Morph_clean_body$Fin_Anterior <- as.numeric(Morph_clean_body$Fin_Anterior)
 Morph_clean_body$Fin_Min <- as.numeric(Morph_clean_body$Fin_Min)
 Morph_clean_body$Fin_Posterior <- as.numeric(Morph_clean_body$Fin_Posterior)
 Morph_clean_body$Treatment <- as.factor(Morph_clean_body$Treatment)
+Morph_clean_body$age <- as.factor(Morph_clean_body$age)
 
 #covariance matrix of response traits:
 cov(Morph_clean_body[,1:7])
@@ -78,6 +79,7 @@ plot(model_weight)
 
 #multivariate model
 mlm_fit1_log <- lm(as.matrix(Morph_log[,1:7]) ~ Treatment*age, data = Morph_log)
+
 summary(manova(mlm_fit1_log), test = "Wilks")
 coef(mlm_fit1_log)
 exp(coef(mlm_fit1_log)) #back-transform to get biologically relevant effects
@@ -95,7 +97,6 @@ sum(diag(cov(mlm_fit1_log$fitted)))/sum(diag(cov(Morph_log[,1:7])))
 
 dwplot(mlm_fit1_log) #this one doesn't work for some reason
 plot(allEffects(mlm_fit1_log)) #this sort of works - maybe try to fix it up a bit - issue with ages
-plot(emmeans(mlm_fit1_log,~Treatment)) #this is useless
 #is a ggplot possible?
 
 #geomorph model:

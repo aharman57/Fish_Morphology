@@ -18,7 +18,8 @@ Morph_clean_yolk <- (Morph
                      )
                      %>% mutate(Yolk_Width = (Yolk_Width/1000),
                                 Yolk_Height = (Yolk_Height/1000),
-                                Treatment = as.factor(Treatment)
+                                Treatment = as.factor(Treatment),
+                                age = as.factor(age)
                      )
                      %>% na.omit()
                      %>% filter(age != 28, age != 14)
@@ -50,6 +51,7 @@ sum(eig_vals_scale_yolk)
 
 #diagnostic plots for separate linear models:
 model_yolkwidth <- lm(Yolk_Width ~ Treatment*age, data= Morph_scale_yolk)
+par(mfrow=c(2,2),mar=c(2,3,1.5,1),mgp=c(2,1,0))
 plot(model_yolkwidth)
 model_yolkheight <- lm(Yolk_Height ~ Treatment*age, data=Morph_scale_yolk)
 plot(model_yolkheight) #issue here with invalid value - missing value?
