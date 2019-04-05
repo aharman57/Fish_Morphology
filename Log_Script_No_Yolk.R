@@ -61,11 +61,12 @@ sum(eig_vals_log)
 
 #diagnostic plots for separate models:
 model_length <- lm(Length ~ Treatment*age, data=Morph_log)
+par(mfrow=c(2,2),mar=c(2,3,1.5,1),mgp=c(2,1,0))
 plot(model_length)
 model_eye <- lm(Eye ~ Treatment*age, data=Morph_log)
 plot(model_eye)
 model_fin_anterior <- lm(Fin_Anterior ~ Treatment*age, data=Morph_log)
-plot(model_fin_anterior) #were there zero values in fin anterior because I think there was an issue logging this though the multivariate model didn't seem to care
+plot(model_fin_anterior)
 model_fin_min <- lm(Fin_Min ~ Treatment*age, data=Morph_log)
 plot(model_fin_min)
 model_fin_posterior <- lm(Fin_Posterior ~ Treatment*age, data = Morph_log)
@@ -77,7 +78,6 @@ plot(model_weight)
 
 #multivariate model
 mlm_fit1_log <- lm(as.matrix(Morph_log[,1:7]) ~ Treatment*age, data = Morph_log)
-#insert diagnostic plots here
 summary(manova(mlm_fit1_log), test = "Wilks")
 coef(mlm_fit1_log)
 exp(coef(mlm_fit1_log)) #back-transform to get biologically relevant effects
@@ -88,12 +88,9 @@ sqrt(t(coef(mlm_fit1_log)[3,]) %*% coef(mlm_fit1_log)[3,])
 sqrt(t(coef(mlm_fit1_log)[4,]) %*% coef(mlm_fit1_log)[4,])
 
 #code for coefficient of determination:
-sum(diag(cov(Morph_log[,1:7])))
-sum(diag(cov(mlm_fit1_log$fitted)))
 sum(diag(cov(mlm_fit1_log$fitted)))/sum(diag(cov(Morph_log[,1:7])))
 #model accounts for 66% of variance? seems high
 
-#figure out if we need to do permutation test stuff to assess whether data conform to assumptions
 #visualization:
 
 dwplot(mlm_fit1_log) #this one doesn't work for some reason
