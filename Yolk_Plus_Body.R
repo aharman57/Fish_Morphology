@@ -22,12 +22,17 @@ Morph_clean_body_yolk <- (Morph
                                 Treatment = "treatment group"
                      )
                      %>% na.omit()
+                     %>% filter(age != 28, age != 14)
 )
 
 Morph_clean_body_yolk$Treatment <- as.factor(Morph_clean_body$Treatment)
 Morph_clean_body_yolk$age <- as.factor(Morph_clean_body$age)
-Morph_log_body_yolk <- (Morph_clean_body_yolk
-                        %>% mutate(Body_Weight = log(Body_Weight),
-                                       Yolk_Weight = log(Yolk_Weight)
+Morph_scale_body_yolk <- (Morph_clean_body_yolk
+                        %>% mutate(Body_Weight = scale(Body_Weight),
+                                       Yolk_Weight = scale(Yolk_Weight)
                                    )
 )
+
+mlm_fit1_scale_yolkbody <- lm(as.matrix(Morph_scale_body_yolk[,1:2]) ~ Treatment*age, data = Morph_scale_body_yolk)
+summary(manova(mlm_fit1_scale_yolkbody), test = "Wilks")
+coef(mlm_fit1_scale_yolkbody)
