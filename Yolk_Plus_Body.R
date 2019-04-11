@@ -25,8 +25,8 @@ Morph_clean_body_yolk <- (Morph
                      %>% filter(age != 28, age != 14)
 )
 
-Morph_clean_body_yolk$Treatment <- as.factor(Morph_clean_body$Treatment)
-Morph_clean_body_yolk$age <- as.factor(Morph_clean_body$age)
+Morph_clean_body_yolk$Treatment <- as.factor(Morph_clean_body_yolk$Treatment)
+Morph_clean_body_yolk$age <- as.factor(Morph_clean_body_yolk$age)
 Morph_scale_body_yolk <- (Morph_clean_body_yolk
                         %>% mutate(Body_Weight = scale(Body_Weight),
                                        Yolk_Weight = scale(Yolk_Weight)

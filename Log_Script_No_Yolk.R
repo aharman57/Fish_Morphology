@@ -61,6 +61,7 @@ Morph_log <- (Morph_clean_body
 
 pairs(Morph_log[, 1:7],
       pch = ".", gap = 0)
+LogCov <- cov(Morph_log[,1:7])
 
 #trying box-cox transformation instead of logging (using model as object):
 BoxLength <- boxcox(Length ~ Treatment*age, data=Morph_clean_body, lambda = seq(-4,4,0.1))
@@ -170,7 +171,7 @@ plot(allEffects(mlm_fit1_log)) #this sort of works - maybe try to fix it up a bi
 
 #geomorph model:
 mlm_fit2_log <- procD.lm(f1 = Morph_log[, 1:7] ~ Treatment*age, 
-                     data = Morph_log, iter = 5000 )
+                     data = Morph_log, Cov = LogCov, iter = 5000 )
 summary(mlm_fit2_log)
 coef(mlm_fit2_log)
 #this basically gives same answer as first model
@@ -200,3 +201,32 @@ cc1 <- tidy(lmer1,effect="fixed") %>%
                   remove=FALSE)
 dwplot(cc1)+
   geom_vline(xintercept=0,lty=2) #this works but everything on different scales and fin values are super high
+
+#trying a permutation like in Ian's paper:
+
+asymm_mod_perm <- rep( NA, 1000 )
+for(i in 1:1000){ 
+  asymm_mod_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,1:7] ) ~ Morph_log$Treatment*Morph_log$age ) ))$stats[1,2]}
+hist(asymm_mod_perm, xlim=c(-1,1))
+abline( v=summary( manova( mlm_fit1_log ))$stats[1,2], col="red")
+#pseudo-p-val
+mean(c(asymm_mod_perm >= summary( manova( mlm_fit1_log ))$stats[1,2], 1))
+
+#same, testing age:
+for(i in 1:1000){ 
+  asymm_mod_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,1:7] ) ~ Morph_log$Treatment*Morph_log$age ) ))$stats[2,2]}
+hist(asymm_mod_perm, xlim=c(-1.5,1.5))
+abline( v=summary( manova( mlm_fit1_log ))$stats[2,2], col="red")
+#pseudo-p-val
+mean(c(asymm_mod_perm >= summary( manova( mlm_fit1_log ))$stats[2,2], 1))
+
+#same, testing interaction:
+for(i in 1:1000){ 
+  asymm_mod_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,1:7] ) ~ Morph_log$Treatment*Morph_log$age ) ))$stats[3,2]}
+hist(asymm_mod_perm, xlim=c(-0.5,0.5))
+abline( v=summary( manova( mlm_fit1_log ))$stats[3,2], col="red")
+#pseudo-p-val
+mean(c(asymm_mod_perm >= summary( manova( mlm_fit1_log ))$stats[3,2], 1))
+
+#original model without wilks test:
+summary(manova(mlm_fit1_log))
