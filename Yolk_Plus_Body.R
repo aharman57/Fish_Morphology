@@ -1,5 +1,5 @@
 #combining yolk and body size into one model
-
+#one of the packages is interfering with tidyverse... cant select data??
 library(tidyverse)
 library(MCMCglmm)
 library(lme4)
