@@ -149,7 +149,6 @@ plot(model_weight, main = "Log Transformed Body Weight")
 
 #multivariate model
 mlm_fit1_log <- lm(as.matrix(Morph_log[,1:7]) ~ Treatment*age, data = Morph_log)
-
 summary(manova(mlm_fit1_log), test = "Wilks")
 coef(mlm_fit1_log)
 exp(coef(mlm_fit1_log)) #back-transform to get biologically relevant effects
@@ -171,7 +170,7 @@ plot(allEffects(mlm_fit1_log)) #this sort of works - maybe try to fix it up a bi
 
 #geomorph model:
 mlm_fit2_log <- procD.lm(f1 = Morph_log[, 1:7] ~ Treatment*age, 
-                     data = Morph_log, iter = 2000 )
+                     data = Morph_log, iter = 5000 )
 summary(mlm_fit2_log)
 coef(mlm_fit2_log)
 #this basically gives same answer as first model

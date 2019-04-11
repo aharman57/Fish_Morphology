@@ -85,7 +85,7 @@ plot(emmeans(mlm_fit1_scale_yolk, ~Treatment)) #this is useless
  
 #geomorph model:
 mlm_fit2_scale_yolk <- procD.lm(f1 = Morph_scale_yolk[, 1:3] ~ Treatment*age, 
-                         data = Morph_scale_yolk, iter = 2000 )
+                         data = Morph_scale_yolk, iter = 5000 )
 summary(mlm_fit2_scale_yolk)
 coef(mlm_fit2_scale_yolk)
 #this basically gives same answer as first model
