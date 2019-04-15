@@ -107,6 +107,7 @@ Morph_Box <- (Morph_clean_body
 )
 
 #models and diagnostics with Box-Cox transformation:
+par(mfrow=c(2,2),mar=c(2,3,1.5,1),mgp=c(2,1,0))
 model_lengthbox <- lm(Length ~ Treatment*age, data=Morph_Box)
 plot(model_lengthbox, main = "Box Transformed Length")
 model_eyebox <- lm(Eye ~ Treatment*age, data=Morph_Box)
