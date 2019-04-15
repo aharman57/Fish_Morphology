@@ -8,7 +8,6 @@ library(geomorph)
 library(emmeans)
 library(dotwhisker)
 library(effects)
-library(MASS)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
 Morph_clean_body <- (Morph
@@ -175,6 +174,7 @@ coef(mlm_fit2_log)
 #this basically gives same answer as first model
 
 #trying a permutation test like in Ian's paper:
+library(MASS) #putting this here because if we put it at the top, it masks select function from tidyverse and messes up data cleaning
 
 asymm_mod_perm <- rep( NA, 1000 )
 for(i in 1:1000){ 
