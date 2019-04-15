@@ -1,6 +1,4 @@
 library(tidyverse)
-library(MCMCglmm)
-library(lme4)
 library(corrplot)
 library(broom.mixed)
 library(dotwhisker)
@@ -176,33 +174,7 @@ summary(mlm_fit2_log)
 coef(mlm_fit2_log)
 #this basically gives same answer as first model
 
-#create coefficient plots?
-
-#lmer model:
-Morph_melt <- (Morph_clean_body
-               %>% mutate(units=factor(1:n()))
-               %>% gather(trait, value, -c(units, age, Treatment))
-               %>% drop_na() #may not need this if we already omitted
-               %>% arrange(units)
-)
-
-t1 <- system.time(
-  lmer1 <- lmer(value ~ trait:(age*Treatment) - 1 +
-                  (trait-1|units),
-                data=Morph_melt,
-                control=lmerControl(optCtrl=list(ftol_abs=1e-10),
-                                    optimizer="bobyqa",
-                                    check.nobs.vs.nlev="ignore",
-                                    check.nobs.vs.nRE="ignore"))
-)
-summary(lmer1)
-cc1 <- tidy(lmer1,effect="fixed") %>%
-  tidyr::separate(term,into=c("trait","fixeff"),extra="merge",
-                  remove=FALSE)
-dwplot(cc1)+
-  geom_vline(xintercept=0,lty=2) #this works but everything on different scales and fin values are super high
-
-#trying a permutation like in Ian's paper:
+#trying a permutation test like in Ian's paper:
 
 asymm_mod_perm <- rep( NA, 1000 )
 for(i in 1:1000){ 
