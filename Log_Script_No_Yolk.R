@@ -39,11 +39,6 @@ corrplot.mixed(cormatrix, lower="ellipse", upper="number")
 pairs(Morph_clean_body[, 1:7],
       pch = ".", gap = 0)
 
-## New Plots ##
-scatterplotMatrix( ~ Length + Eye + Jaw + Fin_Min + Fin_Anterior + Fin_Posterior + Body_Weight,
-                   ellipse = list(fill=TRUE, fill.alpha=0.6), data = Morph_log, gap = 0, regLine=FALSE, smooth=FALSE,
-                   plot.points = F, pch = 20, cex  = 0.5, col=c("grey30", "grey0", "grey80"), groups=Morph_log$Treatment, by.groups=TRUE)
-
 #logging variables instead of scaling:
 Morph_log <- (Morph_clean_body
               %>% mutate(Length = log(Length),
@@ -59,6 +54,11 @@ Morph_log <- (Morph_clean_body
 pairs(Morph_log[, 1:7],
       pch = ".", gap = 0)
 LogCov <- cov(Morph_log[,1:7])
+
+## New Plots ##
+scatterplotMatrix( ~ Length + Eye + Jaw + Fin_Min + Fin_Anterior + Fin_Posterior + Body_Weight,
+                   ellipse = list(fill=TRUE, fill.alpha=0.6), data = Morph_log, gap = 0, regLine=FALSE, smooth=FALSE,
+                   plot.points = F, pch = 20, cex  = 0.5, col=c("grey30", "grey0", "grey80"), groups=Morph_log$Treatment, by.groups=TRUE)
 
 #trying box-cox transformation instead of logging (using model as object):
 BoxLength <- boxcox(Length ~ Treatment*age, data=Morph_clean_body, lambda = seq(-4,4,0.1))
