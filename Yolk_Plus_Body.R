@@ -57,7 +57,7 @@ Morph_Box <- (Morph_clean_body
 #################
 
 
- mlm_fit1_scale_yolkbody <- lm(as.matrix(Morph_scale_body_yolk[,1:2]) ~ Treatment*age, data = Morph_scale_body_yolk)
+mlm_fit1_scale_yolkbody <- lm(as.matrix(Morph_scale_body_yolk[,1:2]) ~ Treatment*age, data = Morph_scale_body_yolk)
 summary(manova(mlm_fit1_scale_yolkbody), test = "Wilks")
 coef(mlm_fit1_scale_yolkbody)
 
