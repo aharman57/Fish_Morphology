@@ -57,7 +57,7 @@ Morph_Box <- (Morph_clean_body
 #################
 
 
- mlm_fit1_scale_yolkbody <- lm(as.matrix(Morph_scale_body_yolk[,1:2]) ~ Treatment*age, data = Morph_scale_body_yolk)
+mlm_fit1_scale_yolkbody <- lm(as.matrix(Morph_scale_body_yolk[,1:2]) ~ Treatment*age, data = Morph_scale_body_yolk)
 summary(manova(mlm_fit1_scale_yolkbody), test = "Wilks")
 coef(mlm_fit1_scale_yolkbody)
 
@@ -103,5 +103,8 @@ plot(effect(mod=mlm_fit1_scale_yolkbody, term = "age", residuals=TRUE))
 plot(effect(mod=mlm_fit1_scale_yolkbody, term = "Treatment"))
 
 library(sjPlot)
+library(snakecase)
 sjp.int(mlm_fit1_scale_yolkbody, swap.pred = T)
-plot_model(mlm_fit1_scale_yolkbody)
+plot_model(mlm_fit1_scale_yolkbody, type="pred", terms=c("age","Treatment"))
+
+plot_model(lm_Body_Weight, type="pred", terms=c("age","Treatment"))
