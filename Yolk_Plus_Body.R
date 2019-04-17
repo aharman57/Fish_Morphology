@@ -53,29 +53,31 @@ plot(lm_Yolk_Weight, main = "Yolk_Weight")
 library(MASS)
 
 ## Treatment
-asymm_mod_perm <- rep( NA, 1000 )
+yolkbody_treatment_perm <- rep( NA, 1000 )
 for(i in 1:1000){ 
-  asymm_mod_perm[i] <- summary( manova(lm( as.matrix( Morph_scale_body_yolk[ sample(nrow(Morph_scale_body_yolk), nrow(Morph_scale_body_yolk), replace=F) ,1:2] ) ~ Morph_scale_body_yolk$Treatment*Morph_scale_body_yolk$age ) ))$stats[1,2]}
-hist(asymm_mod_perm, xlim=c(-1,1))
+  yolkbody_treatment_perm[i] <- summary( manova(lm( as.matrix( Morph_scale_body_yolk[ sample(nrow(Morph_scale_body_yolk), nrow(Morph_scale_body_yolk), replace=F) ,1:2] ) ~ Morph_scale_body_yolk$Treatment*Morph_scale_body_yolk$age ) ))$stats[1,2]}
+hist(yolkbody_treatment_perm, xlim=c(-1,1))
 abline( v=summary( manova( mlm_fit1_scale_yolkbody ))$stats[1,2], col="red")
 #pseudo-p-val
-mean(c(asymm_mod_perm >= summary( manova( mlm_fit1_scale_yolkbody))$stats[1,2], 1))
+mean(c(yolkbody_treatment_perm >= summary( manova( mlm_fit1_scale_yolkbody))$stats[1,2], 1))
 
 ## Age
+yolkbody_age_perm <- rep( NA, 1000 )
 for(i in 1:1000){ 
-  asymm_mod_perm[i] <- summary( manova(lm( as.matrix( Morph_scale_body_yolk[ sample(nrow(Morph_scale_body_yolk), nrow(Morph_scale_body_yolk), replace=F) ,1:2] ) ~ Morph_scale_body_yolk$Treatment*Morph_scale_body_yolk$age ) ))$stats[2,2]}
-hist(asymm_mod_perm, xlim=c(-1.5,1.5))
+  yolkbody_age_perm[i] <- summary( manova(lm( as.matrix( Morph_scale_body_yolk[ sample(nrow(Morph_scale_body_yolk), nrow(Morph_scale_body_yolk), replace=F) ,1:2] ) ~ Morph_scale_body_yolk$Treatment*Morph_scale_body_yolk$age ) ))$stats[2,2]}
+hist(yolkbody_age_perm, xlim=c(-1.5,1.5))
 abline( v=summary( manova( mlm_fit1_scale_yolkbody ))$stats[2,2], col="red")
 #pseudo-p-val
-mean(c(asymm_mod_perm >= summary( manova( mlm_fit1_scale_yolkbody ))$stats[2,2], 1)) ## same value as for treatment??
+mean(c(yolkbody_age_perm >= summary( manova( mlm_fit1_scale_yolkbody ))$stats[2,2], 1)) ## same value as for treatment??
 
 ## Interaction
+yolkbody_interact_perm <- rep( NA, 1000 )
 for(i in 1:1000){ 
-  asymm_mod_perm[i] <- summary( manova(lm( as.matrix( Morph_scale_body_yolk[ sample(nrow(Morph_scale_body_yolk), nrow(Morph_scale_body_yolk), replace=F) ,1:2] ) ~ Morph_scale_body_yolk$Treatment*Morph_scale_body_yolk$age ) ))$stats[3,2]}
-hist(asymm_mod_perm, xlim=c(-0.5,0.5))
+  yolkbody_interact_perm[i] <- summary( manova(lm( as.matrix( Morph_scale_body_yolk[ sample(nrow(Morph_scale_body_yolk), nrow(Morph_scale_body_yolk), replace=F) ,1:2] ) ~ Morph_scale_body_yolk$Treatment*Morph_scale_body_yolk$age ) ))$stats[3,2]}
+hist(yolkbody_interact_perm, xlim=c(-0.5,0.5))
 abline( v=summary( manova( mlm_fit1_scale_yolkbody ))$stats[3,2], col="red")
 #pseudo-p-val
-mean(c(asymm_mod_perm >= summary( manova( mlm_fit1_scale_yolkbody ))$stats[3,2], 1)) ## same value again..
+mean(c(yolkbody_interact_perm >= summary( manova( mlm_fit1_scale_yolkbody ))$stats[3,2], 1)) ## same value again..
 
 ## All-Effects plot
 Yolk_Effects <- allEffects(mlm_fit1_scale_yolkbody)
