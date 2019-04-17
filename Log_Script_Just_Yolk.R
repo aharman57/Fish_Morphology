@@ -62,8 +62,11 @@ plot(model_yolkweight) #some heteroskedasticity here...will use permutations to 
 mlm_fit1_scale_yolk <- lm(as.matrix(Morph_scale_yolk[,1:3]) ~ Treatment*age, data = Morph_scale_yolk)
 summary(manova(mlm_fit1_scale_yolk), test = "Wilks")
 coef(mlm_fit1_scale_yolk)
-#how to back-transform effect sizes when they are scaled?
-#now that treatment is a factor, shouldn't it show the different levels (contrasts from baseline?)
+
+#back-transforming coefficients:
+(coef(mlm_fit1_scale_yolk)[,1])*sd(Morph_clean_yolk$Yolk_Width)
+(coef(mlm_fit1_scale_yolk)[,2])*sd(Morph_clean_yolk$Yolk_Height)
+(coef(mlm_fit1_scale_yolk)[,3])*sd(Morph_clean_yolk$Yolk_Weight)
 
 #magnitude of treatment and age constrast vectors - but what does this really mean? DELETE?
 sqrt(t(coef(mlm_fit1_scale_yolk)[2,]) %*% coef(mlm_fit1_scale_yolk)[2,])
