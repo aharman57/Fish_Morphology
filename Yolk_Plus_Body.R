@@ -33,27 +33,6 @@ Morph_scale_body_yolk <- (Morph_clean_body_yolk
                                    )
 )
 
-########################
-
-## Box-Cox transformation 
-library(MASS)
-
-BoxBody_Weight <- boxcox(Body_Weight ~ Treatment*age, data=Morph_clean_body_yolk, lambda = seq(-4,4,0.1))
-Cox_Body_Weight <- data.frame(BoxBody_Weight$x, BoxBody_Weight$y)
-Cox_Body_Weight <- arrange(Cox_Body_Weight, desc(BoxBody_Weight.y))
-lambda_Body_Weight = Cox_Body_Weight[1, "BoxBody_Weight.x"]
-
-## not working?? saying yolk_weight must be positive... but it is? 0 values?
-BoxYolk_Weight <- boxcox(Yolk_Weight ~ Treatment*age, data=Morph_clean_body_yolk, lambda = seq(-4,4,0.1))
-Cox_Yolk_Weight <- data.frame(BoxYolk_Weight$x, BoxYolk_Weight$y)
-Cox_Yolk_Weight <- arrange(Cox_Yolk_Weight, desc(BoxYolk_Weight.y))
-lambda_Yolk_Weight = Cox_Yolk_Weight[1, "BoxYolk_Weight.x"]
-
-Morph_Box <- (Morph_clean_body
-              %>% mutate(Body_Weight = (Body_Weight ^ lambda_Body_Weight - 1)/lambda_Body_Weight),
-              %>% mutate(Yolk_Weight = (Yolk_Weight ^ lambda_Yolk_Weight - 1)/lambda_Yolk_Weight)
-)
-
 #################
 
 
@@ -69,7 +48,10 @@ lm_Yolk_Weight <- lm(Yolk_Weight ~ Treatment*age, data=Morph_scale_body_yolk)
 plot(lm_Yolk_Weight, main = "Yolk_Weight")
 ### lots of heteroscadicity in the yolk weight - to be expected??? 
 
-##### Permutations ##### 
+##### Permutations #####
+
+library(MASS)
+
 ## Treatment
 asymm_mod_perm <- rep( NA, 1000 )
 for(i in 1:1000){ 
