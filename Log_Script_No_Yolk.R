@@ -30,10 +30,11 @@ Morph_clean_body$Fin_Posterior <- as.numeric(Morph_clean_body$Fin_Posterior)
 Morph_clean_body$Treatment <- as.factor(Morph_clean_body$Treatment)
 Morph_clean_body$age <- as.factor(Morph_clean_body$age)
 
+par(mfrow=c(1,1),mar=c(2,3,1.5,1),mgp=c(2,1,0))
+
 #covariance matrix of response traits:
 cov(Morph_clean_body[,1:7])
 cormatrix <- cor(Morph_clean_body[,1:7])
-corrplot(cormatrix, method = "circle")
 corrplot.mixed(cormatrix, lower="ellipse", upper="number")
 
 pairs(Morph_clean_body[, 1:7],
@@ -53,7 +54,6 @@ Morph_log <- (Morph_clean_body
 
 pairs(Morph_log[, 1:7],
       pch = ".", gap = 0)
-LogCov <- cov(Morph_log[,1:7])
 
 ## New Plots ##
 scatterplotMatrix( ~ Length + Eye + Jaw + Fin_Min + Fin_Anterior + Fin_Posterior + Body_Weight,
@@ -168,6 +168,7 @@ plot(allEffects(mlm_fit1_log)) #this sort of works - maybe try to fix it up a bi
 #is a ggplot possible?
 
 #geomorph model:
+LogCov <- cov(Morph_log[,1:7])
 mlm_fit2_log <- procD.lm(f1 = Morph_log[, 1:7] ~ Treatment*age, 
                      data = Morph_log, Cov = LogCov, iter = 5000 )
 summary(mlm_fit2_log)
