@@ -60,6 +60,8 @@ scatterplotMatrix( ~ Length + Eye + Jaw + Fin_Min + Fin_Anterior + Fin_Posterior
                    ellipse = list(fill=TRUE, fill.alpha=0.6), data = Morph_log, gap = 0, regLine=FALSE, smooth=FALSE,
                    plot.points = F, pch = 20, cex  = 0.5, col=c("grey30", "grey0", "grey80"), groups=Morph_log$Treatment, by.groups=TRUE)
 
+library(MASS) #putting this here because if we put it at the top, it masks select function from tidyverse and messes up data cleaning
+
 #trying box-cox transformation instead of logging (using model as object):
 BoxLength <- boxcox(Length ~ Treatment*age, data=Morph_clean_body, lambda = seq(-4,4,0.1))
 Cox_Length <- data.frame(BoxLength$x, BoxLength$y)
@@ -176,10 +178,9 @@ coef(mlm_fit2_log)
 #this basically gives same answer as first model
 
 #trying a permutation test like in Ian's paper:
-library(MASS) #putting this here because if we put it at the top, it masks select function from tidyverse and messes up data cleaning
 
-body_treatment_perm <- rep( NA, 1000 )
-for(i in 1:1000){ 
+body_treatment_perm <- rep( NA, 1999 )
+for(i in 1:1999){ 
   body_treatment_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,1:7] ) ~ Morph_log$Treatment*Morph_log$age ) ))$stats[1,2]}
 hist(body_treatment_perm, xlim=c(-1,1))
 abline( v=summary( manova( mlm_fit1_log ))$stats[1,2], col="red")
@@ -187,8 +188,8 @@ abline( v=summary( manova( mlm_fit1_log ))$stats[1,2], col="red")
 mean(c(body_treatment_perm >= summary( manova( mlm_fit1_log ))$stats[1,2], 1))
 
 #same, testing age:
-body_age_perm <- rep( NA, 1000 )
-for(i in 1:1000){ 
+body_age_perm <- rep( NA, 1999 )
+for(i in 1:1999){ 
   body_age_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,1:7] ) ~ Morph_log$Treatment*Morph_log$age ) ))$stats[2,2]}
 hist(body_age_perm, xlim=c(-1.5,1.5))
 abline( v=summary( manova( mlm_fit1_log ))$stats[2,2], col="red")
@@ -196,8 +197,8 @@ abline( v=summary( manova( mlm_fit1_log ))$stats[2,2], col="red")
 mean(c(body_age_perm >= summary( manova( mlm_fit1_log ))$stats[2,2], 1))
 
 #same, testing interaction:
-body_interact_perm <- rep( NA, 1000 )
-for(i in 1:1000){ 
+body_interact_perm <- rep( NA, 1999 )
+for(i in 1:1999){ 
   body_interact_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,1:7] ) ~ Morph_log$Treatment*Morph_log$age ) ))$stats[3,2]}
 hist(body_interact_perm, xlim=c(-0.5,0.5))
 abline( v=summary( manova( mlm_fit1_log ))$stats[3,2], col="red")
