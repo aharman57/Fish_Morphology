@@ -177,29 +177,28 @@ coef(mlm_fit2_log)
 #trying a permutation test like in Ian's paper:
 library(MASS) #putting this here because if we put it at the top, it masks select function from tidyverse and messes up data cleaning
 
-asymm_mod_perm <- rep( NA, 1000 )
+body_treatment_perm <- rep( NA, 1000 )
 for(i in 1:1000){ 
-  asymm_mod_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,1:7] ) ~ Morph_log$Treatment*Morph_log$age ) ))$stats[1,2]}
-hist(asymm_mod_perm, xlim=c(-1,1))
+  body_treatment_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,1:7] ) ~ Morph_log$Treatment*Morph_log$age ) ))$stats[1,2]}
+hist(body_treatment_perm, xlim=c(-1,1))
 abline( v=summary( manova( mlm_fit1_log ))$stats[1,2], col="red")
 #pseudo-p-val
-mean(c(asymm_mod_perm >= summary( manova( mlm_fit1_log ))$stats[1,2], 1))
+mean(c(body_treatment_perm >= summary( manova( mlm_fit1_log ))$stats[1,2], 1))
 
 #same, testing age:
+body_age_perm <- rep( NA, 1000 )
 for(i in 1:1000){ 
-  asymm_mod_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,1:7] ) ~ Morph_log$Treatment*Morph_log$age ) ))$stats[2,2]}
-hist(asymm_mod_perm, xlim=c(-1.5,1.5))
+  body_age_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,1:7] ) ~ Morph_log$Treatment*Morph_log$age ) ))$stats[2,2]}
+hist(body_age_perm, xlim=c(-1.5,1.5))
 abline( v=summary( manova( mlm_fit1_log ))$stats[2,2], col="red")
 #pseudo-p-val
-mean(c(asymm_mod_perm >= summary( manova( mlm_fit1_log ))$stats[2,2], 1))
+mean(c(body_age_perm >= summary( manova( mlm_fit1_log ))$stats[2,2], 1))
 
 #same, testing interaction:
+body_interact_perm <- rep( NA, 1000 )
 for(i in 1:1000){ 
-  asymm_mod_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,1:7] ) ~ Morph_log$Treatment*Morph_log$age ) ))$stats[3,2]}
-hist(asymm_mod_perm, xlim=c(-0.5,0.5))
+  body_interact_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,1:7] ) ~ Morph_log$Treatment*Morph_log$age ) ))$stats[3,2]}
+hist(body_interact_perm, xlim=c(-0.5,0.5))
 abline( v=summary( manova( mlm_fit1_log ))$stats[3,2], col="red")
 #pseudo-p-val
-mean(c(asymm_mod_perm >= summary( manova( mlm_fit1_log ))$stats[3,2], 1))
-
-#original model without wilks test:
-summary(manova(mlm_fit1_log))
+mean(c(body_interact_perm >= summary( manova( mlm_fit1_log ))$stats[3,2], 1))
