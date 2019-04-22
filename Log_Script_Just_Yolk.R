@@ -10,7 +10,7 @@ library(geomorph)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
 Morph_clean_yolk <- (Morph
-                     %>% select(-c(1:9, 12:14, 16:17, 20:25)) #got rid of other variables we probably won't use
+                     %>% dplyr::select(-c(1:9, 12:14, 16:17, 20:25)) #got rid of other variables we probably won't use
                      %>% rename(Yolk_Width ="Measure Yolk Width",
                                 Yolk_Height = "Measure Yolk Height",
                                 Yolk_Weight = "yolk weight",

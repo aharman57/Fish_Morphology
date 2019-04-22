@@ -11,7 +11,7 @@ library(effects)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
 Morph_clean_No_8C <- (Morph
-                     %>% select(-c(1:2, 4, 9:12, 15:17, 20:25)) #got rid of other variables we probably won't use
+                     %>% dplyr::select(-c(1:2, 4, 9:12, 15:17, 20:25)) #got rid of other variables we probably won't use
                      %>% rename(Length = "Length (mm)",
                                 Eye = "Eye size (mm)",
                                 Fin_Anterior = "Measure Dorsal Fin Anterior Maximum",

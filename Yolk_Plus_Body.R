@@ -8,7 +8,7 @@ library(effects)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
 Morph_clean_body_yolk <- (Morph
-                     %>% select(-c(1:13, 16:17, 20:25))
+                     %>% dplyr::select(-c(1:13, 16:17, 20:25))
                      %>% rename(Body_Weight = "body weight",
                                 Yolk_Weight = "yolk weight",
                                 Treatment = "treatment group"
