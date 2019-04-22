@@ -150,9 +150,9 @@ plot(model_weightbox, main = "Box Transformed Body Weight")
 mlm_fit1_log <- lm(as.matrix(Morph_log[,1:7]) ~ Treatment*age, data = Morph_log)
 summary(manova(mlm_fit1_log), test = "Wilks")
 coef(mlm_fit1_log)
-exp(coef(mlm_fit1_log)) #back-transform to get biologically relevant effects
+exp(coef(mlm_fit1_log)) #back-transforming to get biologically relevant effects
 
-#magnitude of treatment and age constrast vectors - but what does this really mean?
+#magnitude of treatment and age constrast vectors (a measure of effect size)
 sqrt(t(coef(mlm_fit1_log)[2,]) %*% coef(mlm_fit1_log)[2,])
 sqrt(t(coef(mlm_fit1_log)[3,]) %*% coef(mlm_fit1_log)[3,])
 sqrt(t(coef(mlm_fit1_log)[4,]) %*% coef(mlm_fit1_log)[4,])
