@@ -33,7 +33,7 @@ pairs(Morph_scale_body_yolk[, 1:2],
 ## New Plots ##
 scatterplotMatrix( ~ Body_Weight + Yolk_Weight,
                    ellipse = list(fill=TRUE, fill.alpha=0.6), data = Morph_scale_body_yolk, gap = 0, regLine=FALSE, smooth=FALSE,
-                   plot.points = F, pch = 20, cex  = 0.5, col=c("grey30", "grey0", "grey80"), groups=Morph_scale_body_yolk$Treatment, by.groups=TRUE)
+                   plot.points = F, pch = 20, cex  = 0.5, col=c("grey30", "grey0", "grey80"), groups=Morph_scale_body_yolk$Treatment, by.groups=TRUE, xlim=c(-3,3), ylim=c(-3,3))
 
 
 ## MLM model fit
