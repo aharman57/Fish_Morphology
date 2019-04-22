@@ -1,16 +1,13 @@
 library(tidyverse)
-library(MCMCglmm)
-library(lme4)
 library(corrplot)
 library(broom.mixed)
-library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())
 library(car)
 library(geomorph)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
 Morph_clean_yolk <- (Morph
-                     %>% dplyr::select(-c(1:9, 12:14, 16:17, 20:25)) #got rid of other variables we probably won't use
+                     %>% dplyr::select(-c(1:9, 12:14, 16:17, 20:25))
                      %>% rename(Yolk_Width ="Measure Yolk Width",
                                 Yolk_Height = "Measure Yolk Height",
                                 Yolk_Weight = "yolk weight",
@@ -30,7 +27,7 @@ save(Morph_clean_yolk, file = "Morph_yolk.R")
 #covariance matrix of response traits:
 cov(Morph_clean_yolk[,1:3])
 cormatrix_yolk <- cor(Morph_clean_yolk[,1:3])
-corrplot(cormatrix_yolk, method = "circle") #fix something here
+corrplot(cormatrix_yolk, method = "circle")
 
 pairs(Morph_clean_yolk[, 1:3],
       pch = ".", gap = 0)
@@ -78,12 +75,8 @@ sqrt(t(coef(mlm_fit1_scale_yolk)[4,]) %*% coef(mlm_fit1_scale_yolk)[4,])
 sum(diag(cov(mlm_fit1_scale_yolk$fitted)))/sum(diag(cov(Morph_scale_yolk[,1:3])))
 #model accounts for 52% of variance
 
-#figure out if we need to do permutation test stuff to assess whether data conform to assumptions
 #visualization:
-dwplot(mlm_fit1_scale_yolk) #this one doesn't work for some reason
-plot(allEffects(mlm_fit1_scale_yolk)) #this sort of works - maybe try to fix it up a bit
-plot(emmeans(mlm_fit1_scale_yolk, ~Treatment)) #this is useless
-#is a ggplot possible? crate object with allEffects and then use ggplot?
+plot(allEffects(mlm_fit1_scale_yolk)) #this sort of works
  
 #geomorph model:
 mlm_fit2_scale_yolk <- procD.lm(f1 = Morph_scale_yolk[, 1:3] ~ Treatment*age, 
@@ -91,8 +84,6 @@ mlm_fit2_scale_yolk <- procD.lm(f1 = Morph_scale_yolk[, 1:3] ~ Treatment*age,
 summary(mlm_fit2_scale_yolk)
 coef(mlm_fit2_scale_yolk)
 #this basically gives same answer as first model
-
-#create coefficient plots?
 
 ##### Permutations #####
 
@@ -107,7 +98,7 @@ abline( v=summary( manova( mlm_fit1_scale_yolk ))$stats[1,2], col="red")
 #pseudo-p-val
 mean(c(yolk_treatment_perm >= summary( manova( mlm_fit1_scale_yolk))$stats[1,2], 1))
 
-## Age ##should change the name of the dataset potentially for each of these and for each script in case we want to run them all at once
+## Age
 yolk_age_perm <- rep( NA, 1000 )
 for(i in 1:1000){ 
   yolk_age_perm[i] <- summary( manova(lm( as.matrix( Morph_scale_yolk[ sample(nrow(Morph_scale_yolk), nrow(Morph_scale_yolk), replace=F) ,1:2] ) ~ Morph_scale_yolk$Treatment*Morph_scale_yolk$age ) ))$stats[2,2]}
