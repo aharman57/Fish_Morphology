@@ -21,9 +21,6 @@ Morph_clean_body_yolk <- (Morph
                                 age = as.factor(age))
 )
 
-Morph_clean_body_yolk$Treatment <- as.factor(Morph_clean_body_yolk$Treatment)
-Morph_clean_body_yolk$age <- as.factor(Morph_clean_body_yolk$age)
-
 ## scale instead of logging - 0 values
 Morph_scale_body_yolk <- (Morph_clean_body_yolk
                         %>% mutate(Body_Weight = scale(Body_Weight),

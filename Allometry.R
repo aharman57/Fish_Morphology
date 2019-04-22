@@ -3,12 +3,9 @@
 library(tidyverse)
 library(corrplot)
 library(broom.mixed)
-library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())
 library(car)
 library(geomorph)
-library(emmeans)
-library(dotwhisker)
 library(effects)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv") #could probably remove this too
@@ -64,9 +61,8 @@ plot(allEffects(mlm_allom_log)) ##this doesnt work too well because too squished
 #is there a way to do one or two at a time? or just do ggplot
 
 #permutation test using geomorph
-LogCov <- cov(Morph_log[,2:7])
 mlm_allom_geo <- procD.lm(f1 = Morph_log[, 2:7] ~ Treatment*age*Length, 
-                         data = Morph_log, iter = 5000 ) ##something not working here - fixed by removing specification of covariance matrix - assuming default is accurate??
+                         data = Morph_log, iter = 5000 )
 summary(mlm_allom_geo)
 coef(mlm_allom_geo)
 
@@ -94,7 +90,7 @@ abline( v=summary( manova( mlm_allom_log ))$stats[1,2], col="red")
 #pseudo-p-val
 mean(c(allom_treatment_perm >= summary( manova( mlm_allom_log ))$stats[1,2], 1)) #what is the final '1' for in this code?
 
-hist(allom_age_perm, xlim=c(-1,1))
+hist(allom_age_perm, xlim=c(-2,2))
 abline( v=summary( manova( mlm_allom_log ))$stats[2,2], col="red")
 #pseudo-p-val
 mean(c(allom_age_perm >= summary( manova( mlm_allom_log ))$stats[2,2], 1))
@@ -104,22 +100,22 @@ abline( v=summary( manova( mlm_allom_log ))$stats[3,2], col="red")
 #pseudo-p-val
 mean(c(allom_length_perm >= summary( manova( mlm_allom_log ))$stats[3,2], 1))
 
-hist(allom_treatage_perm, xlim=c(-1,1))
+hist(allom_treatage_perm, xlim=c(-0.5,0.5))
 abline( v=summary( manova( mlm_allom_log ))$stats[4,2], col="red")
 #pseudo-p-val
 mean(c(allom_treatage_perm >= summary( manova( mlm_allom_log ))$stats[4,2], 1))
 
-hist(allom_treatlen_perm, xlim=c(-1,1))
+hist(allom_treatlen_perm, xlim=c(-0.5,0.5))
 abline( v=summary( manova( mlm_allom_log ))$stats[5,2], col="red")
 #pseudo-p-val
 mean(c(allom_treatlen_perm >= summary( manova( mlm_allom_log ))$stats[5,2], 1))
 
-hist(allom_agelen_perm, xlim=c(-1,1))
+hist(allom_agelen_perm, xlim=c(-0.5,0.5))
 abline( v=summary( manova( mlm_allom_log ))$stats[6,2], col="red")
 #pseudo-p-val
 mean(c(allom_agelen_perm >= summary( manova( mlm_allom_log ))$stats[6,2], 1))
 
-hist(allom_interact_perm, xlim=c(-1,1))
+hist(allom_interact_perm, xlim=c(-0.5,0.5))
 abline( v=summary( manova( mlm_allom_log ))$stats[7,2], col="red")
 #pseudo-p-val
 mean(c(allom_interact_perm >= summary( manova( mlm_allom_log ))$stats[7,2], 1))
