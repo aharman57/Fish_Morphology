@@ -88,8 +88,39 @@ for(i in 1:1999){
   allom_treatlen_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,2:7] ) ~ Morph_log$Treatment*Morph_log$age*Morph_log$Length ) ))$stats[5,2]
   allom_agelen_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,2:7] ) ~ Morph_log$Treatment*Morph_log$age*Morph_log$Length ) ))$stats[6,2]
   allom_interact_perm[i] <- summary( manova(lm( as.matrix( Morph_log[ sample(nrow(Morph_log), nrow(Morph_log), replace=F) ,2:7] ) ~ Morph_log$Treatment*Morph_log$age*Morph_log$Length ) ))$stats[7,2]}
+
 hist(allom_treatment_perm, xlim=c(-1,1))
 abline( v=summary( manova( mlm_allom_log ))$stats[1,2], col="red")
 #pseudo-p-val
-mean(c(body_treatment_perm >= summary( manova( mlm_allom_log ))$stats[1,2], 1))
+mean(c(allom_treatment_perm >= summary( manova( mlm_allom_log ))$stats[1,2], 1)) #what is the final '1' for in this code?
+
+hist(allom_age_perm, xlim=c(-1,1))
+abline( v=summary( manova( mlm_allom_log ))$stats[2,2], col="red")
+#pseudo-p-val
+mean(c(allom_age_perm >= summary( manova( mlm_allom_log ))$stats[2,2], 1))
+
+hist(allom_length_perm, xlim=c(-1,1))
+abline( v=summary( manova( mlm_allom_log ))$stats[3,2], col="red")
+#pseudo-p-val
+mean(c(allom_length_perm >= summary( manova( mlm_allom_log ))$stats[3,2], 1))
+
+hist(allom_treatage_perm, xlim=c(-1,1))
+abline( v=summary( manova( mlm_allom_log ))$stats[4,2], col="red")
+#pseudo-p-val
+mean(c(allom_treatage_perm >= summary( manova( mlm_allom_log ))$stats[4,2], 1))
+
+hist(allom_treatlen_perm, xlim=c(-1,1))
+abline( v=summary( manova( mlm_allom_log ))$stats[5,2], col="red")
+#pseudo-p-val
+mean(c(allom_treatlen_perm >= summary( manova( mlm_allom_log ))$stats[5,2], 1))
+
+hist(allom_agelen_perm, xlim=c(-1,1))
+abline( v=summary( manova( mlm_allom_log ))$stats[6,2], col="red")
+#pseudo-p-val
+mean(c(allom_agelen_perm >= summary( manova( mlm_allom_log ))$stats[6,2], 1))
+
+hist(allom_interact_perm, xlim=c(-1,1))
+abline( v=summary( manova( mlm_allom_log ))$stats[7,2], col="red")
+#pseudo-p-val
+mean(c(allom_interact_perm >= summary( manova( mlm_allom_log ))$stats[7,2], 1))
 
