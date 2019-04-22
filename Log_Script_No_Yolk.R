@@ -67,7 +67,6 @@ scatterplotMatrix( ~ Length + Eye + Jaw + Fin_Min + Fin_Anterior + Fin_Posterior
 #eigenvalues after logging:
 eig_vals_log <- svd(cov(Morph_log[, 1:7]))$d
 prod(eig_vals_log)
-sum(eig_vals_log)
 
 #diagnostic plots for separate models:
 model_length <- lm(Length ~ Treatment*age, data=Morph_log)
@@ -164,11 +163,9 @@ sqrt(t(coef(mlm_fit1_log)[4,]) %*% coef(mlm_fit1_log)[4,])
 
 #code for coefficient of determination:
 sum(diag(cov(mlm_fit1_log$fitted)))/sum(diag(cov(Morph_log[,1:7])))
-#model accounts for 66% of variance? seems high
+#model accounts for 66% of variance
 
 #visualization:
-
-dwplot(mlm_fit1_log) #this one doesn't work for some reason
 plot(allEffects(mlm_fit1_log)) #this sort of works - maybe try to fix it up a bit - issue with ages
 #is a ggplot possible?
 

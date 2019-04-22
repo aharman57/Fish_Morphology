@@ -47,7 +47,6 @@ pairs(Morph_scale_yolk[, 1:3],
 #eigenvalues after logging - need to deal with zeros in weight first:
 eig_vals_scale_yolk <- svd(cov(Morph_scale_yolk[, 1:3]))$d
 prod(eig_vals_scale_yolk)
-sum(eig_vals_scale_yolk)
 
 #diagnostic plots for separate linear models:
 model_yolkwidth <- lm(Yolk_Width ~ Treatment*age, data= Morph_scale_yolk)
@@ -56,7 +55,7 @@ plot(model_yolkwidth)
 model_yolkheight <- lm(Yolk_Height ~ Treatment*age, data=Morph_scale_yolk)
 plot(model_yolkheight) #issue here with invalid value - missing value?
 model_yolkweight <- lm(Yolk_Weight ~ Treatment*age, data = Morph_scale_yolk)
-plot(model_yolkweight) #some heteroskedasticity here...will use permutations to calculate p values
+plot(model_yolkweight) #some heteroscedasticity here...will use permutations to calculate p values
 
 #multivariate model:
 mlm_fit1_scale_yolk <- lm(as.matrix(Morph_scale_yolk[,1:3]) ~ Treatment*age, data = Morph_scale_yolk)
@@ -74,8 +73,6 @@ sqrt(t(coef(mlm_fit1_scale_yolk)[3,]) %*% coef(mlm_fit1_scale_yolk)[3,])
 sqrt(t(coef(mlm_fit1_scale_yolk)[4,]) %*% coef(mlm_fit1_scale_yolk)[4,])
 
 #code for coefficient of determination:
-sum(diag(cov(Morph_scale_yolk[,1:3])))
-sum(diag(cov(mlm_fit1_scale_yolk$fitted)))
 sum(diag(cov(mlm_fit1_scale_yolk$fitted)))/sum(diag(cov(Morph_scale_yolk[,1:3])))
 #model accounts for 52% of variance
 
