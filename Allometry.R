@@ -56,11 +56,11 @@ sum(diag(cov(mlm_allom_log$fitted)))/sum(diag(cov(Morph_log[,2:7])))
 
 par(mfrow=c(1,1),mar=c(2,3,1.5,1),mgp=c(2,1,0))
 
-#plot(allEffects(mlm_allom_log)) ##this doesnt work too well because too squished
+#plot(allEffects(mlm_allom_log)) ##this doesnt work too well because too squished - see separate predictors below:
 plot(effect(mod=mlm_allom_log, term = "Treatment"))
 plot(effect(mod=mlm_allom_log, term = "age"))
 plot(effect(mod=mlm_allom_log, term = "Length"))
-plot(effect(mod=mlm_allom_log, term = "Treatment*Length")) ##this tells us about allometry
+plot(effect(mod=mlm_allom_log, term = "Treatment*Length")) ##this tells us about hwo temperature influences allometry
 
 #permutation test using geomorph
 mlm_allom_geo <- procD.lm(f1 = Morph_log[, 2:7] ~ Treatment*age*Length, 
@@ -121,4 +121,3 @@ hist(allom_interact_perm, xlim=c(-0.5,0.5))
 abline( v=summary( manova( mlm_allom_log ))$stats[7,2], col="red")
 #pseudo-p-val
 mean(c(allom_interact_perm >= summary( manova( mlm_allom_log ))$stats[7,2], 1))
-
