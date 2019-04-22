@@ -5,13 +5,11 @@ library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())
 library(car)
 library(geomorph)
-library(emmeans)
-library(dotwhisker)
 library(effects)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
 Morph_clean_body <- (Morph
-                %>% select(-c(1:2, 4, 9:12, 15:17, 20:25)) #got rid of other variables we probably won't use
+                %>% select(-c(1:2, 4, 9:12, 15:17, 20:25))
                 %>% rename(Length = "Length (mm)",
                            Eye = "Eye size (mm)",
                            Fin_Anterior = "Measure Dorsal Fin Anterior Maximum",
@@ -42,7 +40,7 @@ corrplot.mixed(cormatrix, lower="ellipse", upper="number")
 pairs(Morph_clean_body[, 1:7],
       pch = ".", gap = 0)
 
-#logging variables instead of scaling:
+#logging variables:
 Morph_log <- (Morph_clean_body
               %>% mutate(Length = log(Length),
                          Eye = log(Eye),
