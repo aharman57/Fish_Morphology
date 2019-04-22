@@ -5,6 +5,9 @@ library(broom.mixed)
 library(car)
 library(geomorph)
 library(effects)
+library(sjPlot)
+library(snakecase)
+library(MASS)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
 Morph_clean_body_yolk <- (Morph
@@ -67,8 +70,7 @@ plot(allEffects(mlm_fit1_scale_yolkbody))
 plot(effect(mod=mlm_fit1_scale_yolkbody, term = "age"))
 plot(effect(mod=mlm_fit1_scale_yolkbody, term = "Treatment"))
 
-library(sjPlot)
-library(snakecase)
+# SJ plot - predictions
 plot_model(lm_Body_Weight, type="pred", terms=c("age","Treatment"))
 plot_model(lm_Yolk_Weight, type="pred", terms=c("age","Treatment"))
 
@@ -79,8 +81,6 @@ summary(mlm_fit2_scale_yolkbody)
 coef(mlm_fit2_scale_yolkbody)
 
 ##### Permutations #####
-
-library(MASS)
 
 ## Treatment
 yolkbody_treatment_perm <- rep( NA, 1000 )
