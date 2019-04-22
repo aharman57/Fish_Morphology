@@ -72,7 +72,8 @@ library(snakecase)
 sjp.int(mlm_fit1_scale_yolkbody, swap.pred = T)
 plot_model(mlm_fit1_scale_yolkbody, type="pred", terms=c("age","Treatment"))
 
-plot_model(lm_Body_Weight, type="pred", terms=c("age","Treatment"))
+plot_model(lm_Body_Weight, type="diag", terms=c("age","Treatment"))
+plot_model(lm_Yolk_Weight, type="pred", terms=c("age","Treatment"))
 
 
 ##Permutations using geomorph:
