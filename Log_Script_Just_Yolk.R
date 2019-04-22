@@ -4,6 +4,7 @@ library(broom.mixed)
 library(ggplot2); theme_set(theme_bw())
 library(car)
 library(geomorph)
+library(MASS)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
 Morph_clean_yolk <- (Morph
@@ -86,8 +87,6 @@ coef(mlm_fit2_scale_yolk)
 #this basically gives same answer as first model
 
 ##### Permutations #####
-
-library(MASS) #load here because it masks tidyverse 'select' function
 
 ## Treatment
 yolk_treatment_perm <- rep( NA, 1000 )
