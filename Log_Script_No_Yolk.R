@@ -30,6 +30,8 @@ Morph_clean_body$Fin_Posterior <- as.numeric(Morph_clean_body$Fin_Posterior)
 Morph_clean_body$Treatment <- as.factor(Morph_clean_body$Treatment)
 Morph_clean_body$age <- as.factor(Morph_clean_body$age)
 
+save(Morph_clean_body, file = "Morph_clean.R")
+
 par(mfrow=c(1,1),mar=c(2,3,1.5,1),mgp=c(2,1,0))
 
 #covariance matrix of response traits:
