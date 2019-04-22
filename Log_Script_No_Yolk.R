@@ -1,7 +1,6 @@
 library(tidyverse)
 library(corrplot)
 library(broom.mixed)
-library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())
 library(car)
 library(geomorph)
