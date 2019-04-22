@@ -1,7 +1,7 @@
 #combining yolk and body size into one model
-#one of the packages is interfering with tidyverse... cant select data?? --> works now with these packages
 library(tidyverse)
 library(corrplot)
+library(broom.mixed)
 library(car)
 library(geomorph)
 library(effects)
@@ -35,9 +35,7 @@ scatterplotMatrix( ~ Body_Weight + Yolk_Weight,
                    ellipse = list(fill=TRUE, fill.alpha=0.6), data = Morph_scale_body_yolk, gap = 0, regLine=FALSE, smooth=FALSE,
                    plot.points = F, pch = 20, cex  = 0.5, col=c("grey30", "grey0", "grey80"), groups=Morph_scale_body_yolk$Treatment, by.groups=TRUE, xlim=c(-3,3), ylim=c(-3,3))
 
-
 ## MLM model fit
-
 mlm_fit1_scale_yolkbody <- lm(as.matrix(Morph_scale_body_yolk[,1:2]) ~ Treatment*age, data = Morph_scale_body_yolk)
 summary(manova(mlm_fit1_scale_yolkbody), test = "Wilks")
 coef(mlm_fit1_scale_yolkbody)
@@ -61,7 +59,6 @@ plot(lm_Yolk_Weight, main = "Yolk_Weight")
 plot_model(lm_Body_Weight, type="diag", terms=c("age","Treatment"))
 plot_model(lm_Yolk_Weight, type="diag", terms=c("age","Treatment"))
 ### lots of heteroscadicity in the yolk weight - to be expected??? 
-
 
 ## All-Effects plot
 plot(allEffects(mlm_fit1_scale_yolkbody))
