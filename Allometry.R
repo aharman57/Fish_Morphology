@@ -7,6 +7,7 @@ library(ggplot2); theme_set(theme_bw())
 library(car)
 library(geomorph)
 library(effects)
+library(MASS)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv") #could probably remove this too
 load("Morph_clean.R")
@@ -27,11 +28,8 @@ plot(allom_model_jaw, main = "Log Transformed Jaw")
 allom_model_weight <- lm(Body_Weight ~ Treatment*age*Length, data = Morph_log)
 plot(allom_model_weight, main = "Log Transformed Body Weight")
 
-#maybe instead of also showing box cox, say that we will use permutations to calculate p value instead
-##because if we use box cox then interpreting it might be hard?
-##tried box cox on one of the worse ones (fin anterior) and it did not improve and we got negative lambda value
 
-library(MASS)
+##trying box cox transformationon one of the response variables with worst diagnostic plots (fin anterior)
 par(mfrow=c(1,1),mar=c(2,3,1.5,1),mgp=c(2,1,0))
 BoxFinAnt <- boxcox(Fin_Anterior ~ Treatment*age*Length, data=Morph_clean_body, lambda = seq(-4,4,0.1))
 Cox_FinAnt = data.frame(BoxFinAnt$x, BoxFinAnt$y)
@@ -44,6 +42,7 @@ Morph_box_test <- (Morph_clean_body
 allom_box_test <- lm(Fin_Anterior ~ Treatment*age*Length, data=Morph_box_test)
 par(mfrow=c(2,2),mar=c(2,3,1.5,1),mgp=c(2,1,0))
 plot(allom_box_test)
+#negative lambda value and did not improve fit - do not use
 
 #multivariate model:
 mlm_allom_log <- lm(as.matrix(Morph_log[,2:7]) ~ Treatment*age*Length, data = Morph_log)
