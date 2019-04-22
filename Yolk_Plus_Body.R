@@ -26,8 +26,7 @@ Morph_scale_body_yolk <- (Morph_clean_body_yolk
                                    )
 )
 
-#################
-
+## Pairs plot
 pairs(Morph_scale_body_yolk[, 1:2],
       pch = ".", gap = 0)
 
@@ -36,8 +35,8 @@ scatterplotMatrix( ~ Body_Weight + Yolk_Weight,
                    ellipse = list(fill=TRUE, fill.alpha=0.6), data = Morph_scale_body_yolk, gap = 0, regLine=FALSE, smooth=FALSE,
                    plot.points = F, pch = 20, cex  = 0.5, col=c("grey30", "grey0", "grey80"), groups=Morph_scale_body_yolk$Treatment, by.groups=TRUE)
 
-#################
 
+## MLM model fit
 
 mlm_fit1_scale_yolkbody <- lm(as.matrix(Morph_scale_body_yolk[,1:2]) ~ Treatment*age, data = Morph_scale_body_yolk)
 summary(manova(mlm_fit1_scale_yolkbody), test = "Wilks")
@@ -58,34 +57,29 @@ plot(lm_Body_Weight, main = "Body_Weight")
 lm_Yolk_Weight <- lm(Yolk_Weight ~ Treatment*age, data=Morph_scale_body_yolk)
 plot(lm_Yolk_Weight, main = "Yolk_Weight")
 
-## Different/Better? Diagnostic Tests
+## Different/Better Diagnostic Tests
 plot_model(lm_Body_Weight, type="diag", terms=c("age","Treatment"))
 plot_model(lm_Yolk_Weight, type="diag", terms=c("age","Treatment"))
 ### lots of heteroscadicity in the yolk weight - to be expected??? 
 
 
 ## All-Effects plot
-Yolk_Effects <- allEffects(mlm_fit1_scale_yolkbody)
 plot(allEffects(mlm_fit1_scale_yolkbody))
+
 # Separates the predictors, can't seem to separate the response... always faceted??
-plot(effect(mod=mlm_fit1_scale_yolkbody, term = "age", residuals=TRUE))
+plot(effect(mod=mlm_fit1_scale_yolkbody, term = "age"))
 plot(effect(mod=mlm_fit1_scale_yolkbody, term = "Treatment"))
 
 library(sjPlot)
 library(snakecase)
-sjp.int(mlm_fit1_scale_yolkbody, swap.pred = T)
-plot_model(mlm_fit1_scale_yolkbody, type="pred", terms=c("age","Treatment"))
-
-plot_model(lm_Body_Weight, type="diag", terms=c("age","Treatment"))
+plot_model(lm_Body_Weight, type="pred", terms=c("age","Treatment"))
 plot_model(lm_Yolk_Weight, type="pred", terms=c("age","Treatment"))
-
 
 ##Permutations using geomorph:
 mlm_fit2_scale_yolkbody <- procD.lm(f1 = Morph_scale_body_yolk[, 1:2] ~ Treatment*age, 
                                 data = Morph_scale_body_yolk, iter = 5000 )
 summary(mlm_fit2_scale_yolkbody)
 coef(mlm_fit2_scale_yolkbody)
-
 
 ##### Permutations #####
 

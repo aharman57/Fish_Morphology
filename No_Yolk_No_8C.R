@@ -1,12 +1,9 @@
 library(tidyverse)
 library(corrplot)
 library(broom.mixed)
-library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())
 library(car)
 library(geomorph)
-library(emmeans)
-library(dotwhisker)
 library(effects)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
@@ -91,8 +88,6 @@ plot_model(model_fin_posterior, type="diag", terms=c("age","Treatment"))
 plot_model(model_fin_min, type="diag", terms=c("age","Treatment"))
 plot_model(model_jaw, type="diag", terms=c("age","Treatment"))
 plot_model(model_weight, type="diag", terms=c("age","Treatment"))
-## tried new plots, showed a possibilty of multicollinearity affecting predictions
-## within tolerable range, but old diagnostic plots did NOT indicate this 
 
 #multivariate model
 mlm_fit1_log_No_8C <- lm(as.matrix(Morph_log_No_8C[,1:7]) ~ Treatment*age, data = Morph_log_No_8C)
@@ -107,22 +102,20 @@ sqrt(t(coef(mlm_fit1_log_No_8C)[4,]) %*% coef(mlm_fit1_log_No_8C)[4,])
 
 #code for coefficient of determination:
 sum(diag(cov(mlm_fit1_log_No_8C$fitted)))/sum(diag(cov(Morph_log_No_8C[,1:7])))
-#model accounts for 66% of variance? seems high
+#model accounts for 68% of variance? seems high
 
 par(mfrow=c(1,1),mar=c(2,3,1.5,1),mgp=c(2,1,0))
 
 #visualization:
 
-plot(allEffects(mlm_fit1_log_No_8C)) #this sort of works - maybe try to fix it up a bit - issue with ages
-#is a ggplot possible?
+plot(allEffects(mlm_fit1_log_No_8C)) 
 
-#geomorph model:
+#geomorph model (to validate coefficients):
 LogCov <- cov(Morph_log_No_8C[,1:7])
 mlm_fit2_log_No_8C <- procD.lm(f1 = Morph_log_No_8C[, 1:7] ~ Treatment*age, 
                          data = Morph_log_No_8C, iter = 5000 )
 summary(mlm_fit2_log_No_8C)
 coef(mlm_fit2_log_No_8C)
-#this basically gives same answer as first model
 
 #trying a permutation test like in Ian's paper:
 
