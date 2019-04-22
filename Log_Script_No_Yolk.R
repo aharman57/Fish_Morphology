@@ -5,8 +5,6 @@ library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())
 library(car)
 library(geomorph)
-library(emmeans)
-library(dotwhisker)
 library(effects)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
