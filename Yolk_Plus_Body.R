@@ -1,11 +1,9 @@
 #combining yolk and body size into one model
 #one of the packages is interfering with tidyverse... cant select data?? --> works now with these packages
 library(tidyverse)
-library(lme4)
 library(corrplot)
 library(car)
 library(geomorph)
-library(dotwhisker)
 library(effects)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
