@@ -43,7 +43,7 @@ mlm_fit1_scale_yolkbody <- lm(as.matrix(Morph_scale_body_yolk[,1:2]) ~ Treatment
 summary(manova(mlm_fit1_scale_yolkbody), test = "Wilks")
 coef(mlm_fit1_scale_yolkbody)
 
-#magnitude of treatment and age constrast vectors - but what does this really mean?
+#magnitude of treatment and age constrast vectors
 sqrt(t(coef(mlm_fit1_scale_yolkbody)[2,]) %*% coef(mlm_fit1_scale_yolkbody)[2,])
 sqrt(t(coef(mlm_fit1_scale_yolkbody)[3,]) %*% coef(mlm_fit1_scale_yolkbody)[3,])
 sqrt(t(coef(mlm_fit1_scale_yolkbody)[4,]) %*% coef(mlm_fit1_scale_yolkbody)[4,])
