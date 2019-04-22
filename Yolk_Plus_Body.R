@@ -1,11 +1,9 @@
 #combining yolk and body size into one model
 #one of the packages is interfering with tidyverse... cant select data?? --> works now with these packages
 library(tidyverse)
-library(lme4)
 library(corrplot)
 library(car)
 library(geomorph)
-library(dotwhisker)
 library(effects)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
@@ -20,9 +18,6 @@ Morph_clean_body_yolk <- (Morph
                      %>% mutate(Treatment = as.factor(Treatment),
                                 age = as.factor(age))
 )
-
-Morph_clean_body_yolk$Treatment <- as.factor(Morph_clean_body_yolk$Treatment)
-Morph_clean_body_yolk$age <- as.factor(Morph_clean_body_yolk$age)
 
 ## scale instead of logging - 0 values
 Morph_scale_body_yolk <- (Morph_clean_body_yolk
@@ -64,6 +59,7 @@ lm_Yolk_Weight <- lm(Yolk_Weight ~ Treatment*age, data=Morph_scale_body_yolk)
 plot(lm_Yolk_Weight, main = "Yolk_Weight")
 ### lots of heteroscadicity in the yolk weight - to be expected??? 
 
+<<<<<<< HEAD
 ## All-Effects plot
 Yolk_Effects <- allEffects(mlm_fit1_scale_yolkbody)
 plot(allEffects(mlm_fit1_scale_yolkbody))
@@ -78,6 +74,13 @@ plot_model(mlm_fit1_scale_yolkbody, type="pred", terms=c("age","Treatment"))
 
 plot_model(lm_Body_Weight, type="pred", terms=c("age","Treatment"))
 
+=======
+##Permutations using geomorph:
+mlm_fit2_scale_yolkbody <- procD.lm(f1 = Morph_scale_body_yolk[, 1:2] ~ Treatment*age, 
+                                data = Morph_scale_body_yolk, iter = 5000 )
+summary(mlm_fit2_scale_yolkbody)
+coef(mlm_fit2_scale_yolkbody)
+>>>>>>> 4b57c011a9cab3775ba6666a546004276098235c
 
 ##### Permutations #####
 

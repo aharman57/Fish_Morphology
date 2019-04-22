@@ -64,6 +64,27 @@ scatterplotMatrix( ~ Length + Eye + Jaw + Fin_Min + Fin_Anterior + Fin_Posterior
                    ellipse = list(fill=TRUE, fill.alpha=0.6), data = Morph_log, gap = 0, regLine=FALSE, smooth=FALSE,
                    plot.points = F, pch = 20, cex  = 0.5, col=c("grey30", "grey0", "grey80"), groups=Morph_log$Treatment, by.groups=TRUE)
 
+#eigenvalues after logging:
+eig_vals_log <- svd(cov(Morph_log[, 1:7]))$d
+prod(eig_vals_log)
+
+#diagnostic plots for separate models:
+model_length <- lm(Length ~ Treatment*age, data=Morph_log)
+par(mfrow=c(2,2),mar=c(2,3,1.5,1),mgp=c(2,1,0))
+plot(model_length, main = "Log Transformed Length")
+model_eye <- lm(Eye ~ Treatment*age, data=Morph_log)
+plot(model_eye, main = "Log Transformed Eye")
+model_fin_anterior <- lm(Fin_Anterior ~ Treatment*age, data=Morph_log)
+plot(model_fin_anterior, main = "Log Transformed Fin Anterior")
+model_fin_min <- lm(Fin_Min ~ Treatment*age, data=Morph_log)
+plot(model_fin_min, main = "Log Transformed Fin Min")
+model_fin_posterior <- lm(Fin_Posterior ~ Treatment*age, data = Morph_log)
+plot(model_fin_posterior, main = "Log Transformed Fin Posterior")
+model_jaw <- lm(Jaw ~ Treatment*age, data=Morph_log)
+plot(model_jaw, main = "Log Transformed Jaw")
+model_weight <- lm(Body_Weight ~ Treatment*age, data = Morph_log)
+plot(model_weight, main = "Log Transformed Body Weight")
+
 library(MASS) #putting this here because if we put it at the top, it masks select function from tidyverse and messes up data cleaning
 
 #trying box-cox transformation instead of logging (using model as object):
@@ -129,29 +150,6 @@ plot(model_jawbox, main = "Box Transformed Jaw")
 model_weightbox <- lm(Body_Weight ~ Treatment*age, data=Morph_Box)
 plot(model_weightbox, main = "Box Transformed Body Weight")
 
-
-#eigenvalues after logging:
-eig_vals_log <- svd(cov(Morph_log[, 1:7]))$d
-prod(eig_vals_log)
-sum(eig_vals_log)
-
-#diagnostic plots for separate models:
-model_length <- lm(Length ~ Treatment*age, data=Morph_log)
-par(mfrow=c(2,2),mar=c(2,3,1.5,1),mgp=c(2,1,0))
-plot(model_length, main = "Log Transformed Length")
-model_eye <- lm(Eye ~ Treatment*age, data=Morph_log)
-plot(model_eye, main = "Log Transformed Eye")
-model_fin_anterior <- lm(Fin_Anterior ~ Treatment*age, data=Morph_log)
-plot(model_fin_anterior, main = "Log Transformed Fin Anterior")
-model_fin_min <- lm(Fin_Min ~ Treatment*age, data=Morph_log)
-plot(model_fin_min, main = "Log Transformed Fin Min")
-model_fin_posterior <- lm(Fin_Posterior ~ Treatment*age, data = Morph_log)
-plot(model_fin_posterior, main = "Log Transformed Fin Posterior")
-model_jaw <- lm(Jaw ~ Treatment*age, data=Morph_log)
-plot(model_jaw, main = "Log Transformed Jaw")
-model_weight <- lm(Body_Weight ~ Treatment*age, data = Morph_log)
-plot(model_weight, main = "Log Transformed Body Weight")
-
 #multivariate model
 mlm_fit1_log <- lm(as.matrix(Morph_log[,1:7]) ~ Treatment*age, data = Morph_log)
 summary(manova(mlm_fit1_log), test = "Wilks")
@@ -165,18 +163,15 @@ sqrt(t(coef(mlm_fit1_log)[4,]) %*% coef(mlm_fit1_log)[4,])
 
 #code for coefficient of determination:
 sum(diag(cov(mlm_fit1_log$fitted)))/sum(diag(cov(Morph_log[,1:7])))
-#model accounts for 66% of variance? seems high
+#model accounts for 66% of variance
 
 #visualization:
-
-dwplot(mlm_fit1_log) #this one doesn't work for some reason
 plot(allEffects(mlm_fit1_log)) #this sort of works - maybe try to fix it up a bit - issue with ages
 #is a ggplot possible?
 
 #geomorph model:
-LogCov <- cov(Morph_log[,1:7])
 mlm_fit2_log <- procD.lm(f1 = Morph_log[, 1:7] ~ Treatment*age, 
-                     data = Morph_log, Cov = LogCov, iter = 5000 )
+                     data = Morph_log, iter = 5000 )
 summary(mlm_fit2_log)
 coef(mlm_fit2_log)
 #this basically gives same answer as first model
