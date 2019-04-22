@@ -74,11 +74,11 @@ model_eye <- lm(Eye ~ Treatment*age, data=Morph_log_No_8C)
 plot(model_eye, main = "Log Transformed Eye")
 model_fin_anterior <- lm(Fin_Anterior ~ Treatment*age, data=Morph_log_No_8C)
 plot(model_fin_anterior, main = "Log Transformed Fin Anterior")
-model_fin_min <- lm(Fin_Min ~ Treatment*age, data=Morph_log)
+model_fin_min <- lm(Fin_Min ~ Treatment*age, data=Morph_log_No_8C)
 plot(model_fin_min, main = "Log Transformed Fin Min")
 model_fin_posterior <- lm(Fin_Posterior ~ Treatment*age, data = Morph_log_No_8C)
 plot(model_fin_posterior, main = "Log Transformed Fin Posterior")
-model_jaw <- lm(Jaw ~ Treatment*age, data=Morph_log)
+model_jaw <- lm(Jaw ~ Treatment*age, data=Morph_log_No_8C)
 plot(model_jaw, main = "Log Transformed Jaw")
 model_weight <- lm(Body_Weight ~ Treatment*age, data = Morph_log_No_8C)
 plot(model_weight, main = "Log Transformed Body Weight")
@@ -87,7 +87,7 @@ plot(model_weight, main = "Log Transformed Body Weight")
 mlm_fit1_log_No_8C <- lm(as.matrix(Morph_log_No_8C[,1:7]) ~ Treatment*age, data = Morph_log_No_8C)
 summary(manova(mlm_fit1_log_No_8C), test = "Wilks")
 coef(mlm_fit1_log_No_8C)
-exp(coef(mlm_fit1_log)) #back-transform to get biologically relevant effects
+exp(coef(mlm_fit1_log_No_8C)) #back-transform to get biologically relevant effects
 
 #magnitude of treatment and age constrast vectors - but what does this really mean?
 sqrt(t(coef(mlm_fit1_log_No_8C)[2,]) %*% coef(mlm_fit1_log_No_8C)[2,])
@@ -98,6 +98,8 @@ sqrt(t(coef(mlm_fit1_log_No_8C)[4,]) %*% coef(mlm_fit1_log_No_8C)[4,])
 sum(diag(cov(mlm_fit1_log_No_8C$fitted)))/sum(diag(cov(Morph_log_No_8C[,1:7])))
 #model accounts for 66% of variance? seems high
 
+par(mfrow=c(1,1),mar=c(2,3,1.5,1),mgp=c(2,1,0))
+
 #visualization:
 
 plot(allEffects(mlm_fit1_log_No_8C)) #this sort of works - maybe try to fix it up a bit - issue with ages
@@ -106,7 +108,7 @@ plot(allEffects(mlm_fit1_log_No_8C)) #this sort of works - maybe try to fix it u
 #geomorph model:
 LogCov <- cov(Morph_log_No_8C[,1:7])
 mlm_fit2_log_No_8C <- procD.lm(f1 = Morph_log_No_8C[, 1:7] ~ Treatment*age, 
-                         data = Morph_log_No_8C, Cov = LogCov, iter = 5000 )
+                         data = Morph_log_No_8C, iter = 5000 )
 summary(mlm_fit2_log_No_8C)
 coef(mlm_fit2_log_No_8C)
 #this basically gives same answer as first model
@@ -117,24 +119,24 @@ body_treatment_perm <- rep( NA, 1999 )
 for(i in 1:1999){ 
   body_treatment_perm[i] <- summary( manova(lm( as.matrix( Morph_log_No_8C[ sample(nrow(Morph_log_No_8C), nrow(Morph_log_No_8C), replace=F) ,1:7] ) ~ Morph_log_No_8C$Treatment*Morph_log_No_8C$age ) ))$stats[1,2]}
 hist(body_treatment_perm, xlim=c(-1,1))
-abline( v=summary( manova( mlm_fit1_log ))$stats[1,2], col="red")
+abline( v=summary( manova( mlm_fit1_log_No_8C ))$stats[1,2], col="red")
 #pseudo-p-val
-mean(c(body_treatment_perm >= summary( manova( mlm_fit1_log ))$stats[1,2], 1))
+mean(c(body_treatment_perm >= summary( manova( mlm_fit1_log_No_8C ))$stats[1,2], 1))
 
 #same, testing age:
 body_age_perm <- rep( NA, 1999 )
 for(i in 1:1999){ 
   body_age_perm[i] <- summary( manova(lm( as.matrix( Morph_log_No_8C[ sample(nrow(Morph_log_No_8C), nrow(Morph_log_No_8C), replace=F) ,1:7] ) ~ Morph_log_No_8C$Treatment*Morph_log_No_8C$age ) ))$stats[2,2]}
 hist(body_age_perm, xlim=c(-1.5,1.5))
-abline( v=summary( manova( mlm_fit1_log ))$stats[2,2], col="red")
+abline( v=summary( manova( mlm_fit1_log_No_8C ))$stats[2,2], col="red")
 #pseudo-p-val
-mean(c(body_age_perm >= summary( manova( mlm_fit1_log ))$stats[2,2], 1))
+mean(c(body_age_perm >= summary( manova( mlm_fit1_log_No_8C ))$stats[2,2], 1))
 
 #same, testing interaction:
 body_interact_perm <- rep( NA, 1999 )
 for(i in 1:1999){ 
   body_interact_perm[i] <- summary( manova(lm( as.matrix( Morph_log_No_8C[ sample(nrow(Morph_log_No_8C), nrow(Morph_log_No_8C), replace=F) ,1:7] ) ~ Morph_log_No_8C$Treatment*Morph_log_No_8C$age ) ))$stats[3,2]}
 hist(body_interact_perm, xlim=c(-0.5,0.5))
-abline( v=summary( manova( mlm_fit1_log ))$stats[3,2], col="red")
+abline( v=summary( manova( mlm_fit1_log_No_8C ))$stats[3,2], col="red")
 #pseudo-p-val
-mean(c(body_interact_perm >= summary( manova( mlm_fit1_log ))$stats[3,2], 1))
+mean(c(body_interact_perm >= summary( manova( mlm_fit1_log_No_8C ))$stats[3,2], 1))
