@@ -4,6 +4,7 @@ library(broom.mixed)
 library(ggplot2); theme_set(theme_bw())
 library(car)
 library(geomorph)
+library(effects)
 library(MASS)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
