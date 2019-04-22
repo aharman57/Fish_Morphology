@@ -33,10 +33,28 @@ Morph_scale_body_yolk <- (Morph_clean_body_yolk
 
 #################
 
+pairs(Morph_scale_body_yolk[, 1:2],
+      pch = ".", gap = 0)
+
+## New Plots ##
+scatterplotMatrix( ~ Body_Weight + Yolk_Weight,
+                   ellipse = list(fill=TRUE, fill.alpha=0.6), data = Morph_scale_body_yolk, gap = 0, regLine=FALSE, smooth=FALSE,
+                   plot.points = F, pch = 20, cex  = 0.5, col=c("grey30", "grey0", "grey80"), groups=Morph_scale_body_yolk$Treatment, by.groups=TRUE)
+
+#################
+
 
 mlm_fit1_scale_yolkbody <- lm(as.matrix(Morph_scale_body_yolk[,1:2]) ~ Treatment*age, data = Morph_scale_body_yolk)
 summary(manova(mlm_fit1_scale_yolkbody), test = "Wilks")
 coef(mlm_fit1_scale_yolkbody)
+
+#magnitude of treatment and age constrast vectors - but what does this really mean?
+sqrt(t(coef(mlm_fit1_scale_yolkbody)[2,]) %*% coef(mlm_fit1_scale_yolkbody)[2,])
+sqrt(t(coef(mlm_fit1_scale_yolkbody)[3,]) %*% coef(mlm_fit1_scale_yolkbody)[3,])
+sqrt(t(coef(mlm_fit1_scale_yolkbody)[4,]) %*% coef(mlm_fit1_scale_yolkbody)[4,])
+
+#code for coefficient of determination:
+sum(diag(cov(mlm_fit1_scale_yolkbody$fitted)))/sum(diag(cov(Morph_scale_body_yolk[,1:2])))
 
 ## Diagnostics
 par(mfrow=c(2,2),mar=c(2,3,1.5,1),mgp=c(2,1,0))
@@ -45,6 +63,21 @@ plot(lm_Body_Weight, main = "Body_Weight")
 lm_Yolk_Weight <- lm(Yolk_Weight ~ Treatment*age, data=Morph_scale_body_yolk)
 plot(lm_Yolk_Weight, main = "Yolk_Weight")
 ### lots of heteroscadicity in the yolk weight - to be expected??? 
+
+## All-Effects plot
+Yolk_Effects <- allEffects(mlm_fit1_scale_yolkbody)
+plot(allEffects(mlm_fit1_scale_yolkbody))
+# Separates the predictors, can't seem to separate the response... always faceted??
+plot(effect(mod=mlm_fit1_scale_yolkbody, term = "age", residuals=TRUE))
+plot(effect(mod=mlm_fit1_scale_yolkbody, term = "Treatment"))
+
+library(sjPlot)
+library(snakecase)
+sjp.int(mlm_fit1_scale_yolkbody, swap.pred = T)
+plot_model(mlm_fit1_scale_yolkbody, type="pred", terms=c("age","Treatment"))
+
+plot_model(lm_Body_Weight, type="pred", terms=c("age","Treatment"))
+
 
 ##### Permutations #####
 
@@ -76,17 +109,3 @@ hist(yolkbody_interact_perm, xlim=c(-0.5,0.5))
 abline( v=summary( manova( mlm_fit1_scale_yolkbody ))$stats[3,2], col="red")
 #pseudo-p-val
 mean(c(yolkbody_interact_perm >= summary( manova( mlm_fit1_scale_yolkbody ))$stats[3,2], 1)) ## same value again..
-
-## All-Effects plot
-Yolk_Effects <- allEffects(mlm_fit1_scale_yolkbody)
-plot(allEffects(mlm_fit1_scale_yolkbody))
-# Separates the predictors, can't seem to separate the response... always faceted??
-plot(effect(mod=mlm_fit1_scale_yolkbody, term = "age", residuals=TRUE))
-plot(effect(mod=mlm_fit1_scale_yolkbody, term = "Treatment"))
-
-library(sjPlot)
-library(snakecase)
-sjp.int(mlm_fit1_scale_yolkbody, swap.pred = T)
-plot_model(mlm_fit1_scale_yolkbody, type="pred", terms=c("age","Treatment"))
-
-plot_model(lm_Body_Weight, type="pred", terms=c("age","Treatment"))
