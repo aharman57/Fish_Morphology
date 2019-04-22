@@ -5,6 +5,7 @@ library(ggplot2); theme_set(theme_bw())
 library(car)
 library(geomorph)
 library(effects)
+library(MASS)
 
 Morph <- read_csv("Morph_Data_2016-2017.csv")
 Morph_clean_body <- (Morph
@@ -81,8 +82,6 @@ model_jaw <- lm(Jaw ~ Treatment*age, data=Morph_log)
 plot(model_jaw, main = "Log Transformed Jaw")
 model_weight <- lm(Body_Weight ~ Treatment*age, data = Morph_log)
 plot(model_weight, main = "Log Transformed Body Weight")
-
-library(MASS) #putting this here because if we put it at the top, it masks select function from tidyverse and messes up data cleaning
 
 #trying box-cox transformation instead of logging (using model as object):
 BoxLength <- boxcox(Length ~ Treatment*age, data=Morph_clean_body, lambda = seq(-4,4,0.1))
