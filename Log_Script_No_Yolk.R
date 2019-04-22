@@ -162,8 +162,7 @@ sum(diag(cov(mlm_fit1_log$fitted)))/sum(diag(cov(Morph_log[,1:7])))
 #model accounts for 66% of variance
 
 #visualization:
-plot(allEffects(mlm_fit1_log)) #this sort of works - maybe try to fix it up a bit - issue with ages
-#is a ggplot possible?
+plot(allEffects(mlm_fit1_log))
 
 #geomorph model:
 mlm_fit2_log <- procD.lm(f1 = Morph_log[, 1:7] ~ Treatment*age, 
