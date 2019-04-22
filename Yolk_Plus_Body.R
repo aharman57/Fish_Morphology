@@ -43,6 +43,12 @@ lm_Yolk_Weight <- lm(Yolk_Weight ~ Treatment*age, data=Morph_scale_body_yolk)
 plot(lm_Yolk_Weight, main = "Yolk_Weight")
 ### lots of heteroscadicity in the yolk weight - to be expected??? 
 
+##Permutations using geomorph:
+mlm_fit2_scale_yolkbody <- procD.lm(f1 = Morph_scale_body_yolk[, 1:2] ~ Treatment*age, 
+                                data = Morph_scale_body_yolk, iter = 5000 )
+summary(mlm_fit2_scale_yolkbody)
+coef(mlm_fit2_scale_yolkbody)
+
 ##### Permutations #####
 
 library(MASS)
