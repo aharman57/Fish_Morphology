@@ -25,6 +25,8 @@ Morph_clean_yolk <- (Morph
                      %>% filter(age != 28, age != 14)
 )
 
+save(Morph_clean_yolk, file = "Morph_yolk.R")
+
 #covariance matrix of response traits:
 cov(Morph_clean_yolk[,1:3])
 cormatrix_yolk <- cor(Morph_clean_yolk[,1:3])
