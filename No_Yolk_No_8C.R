@@ -83,6 +83,17 @@ plot(model_jaw, main = "Log Transformed Jaw")
 model_weight <- lm(Body_Weight ~ Treatment*age, data = Morph_log_No_8C)
 plot(model_weight, main = "Log Transformed Body Weight")
 
+## NEW/Better diagnostic plots
+plot_model(model_length, type="diag", terms=c("age","Treatment"))
+plot_model(model_eye, type="diag", terms=c("age","Treatment"))
+plot_model(model_fin_anterior, type="diag", terms=c("age","Treatment"))
+plot_model(model_fin_posterior, type="diag", terms=c("age","Treatment"))
+plot_model(model_fin_min, type="diag", terms=c("age","Treatment"))
+plot_model(model_jaw, type="diag", terms=c("age","Treatment"))
+plot_model(model_weight, type="diag", terms=c("age","Treatment"))
+## tried new plots, showed a possibilty of multicollinearity affecting predictions
+## within tolerable range, but old diagnostic plots did NOT indicate this 
+
 #multivariate model
 mlm_fit1_log_No_8C <- lm(as.matrix(Morph_log_No_8C[,1:7]) ~ Treatment*age, data = Morph_log_No_8C)
 summary(manova(mlm_fit1_log_No_8C), test = "Wilks")

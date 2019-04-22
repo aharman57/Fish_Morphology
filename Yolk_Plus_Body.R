@@ -57,6 +57,10 @@ lm_Body_Weight <- lm(Body_Weight ~ Treatment*age, data=Morph_scale_body_yolk)
 plot(lm_Body_Weight, main = "Body_Weight")
 lm_Yolk_Weight <- lm(Yolk_Weight ~ Treatment*age, data=Morph_scale_body_yolk)
 plot(lm_Yolk_Weight, main = "Yolk_Weight")
+
+## Different/Better? Diagnostic Tests
+plot_model(lm_Body_Weight, type="diag", terms=c("age","Treatment"))
+plot_model(lm_Yolk_Weight, type="diag", terms=c("age","Treatment"))
 ### lots of heteroscadicity in the yolk weight - to be expected??? 
 
 
