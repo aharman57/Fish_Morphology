@@ -50,6 +50,16 @@ summary(manova(mlm_allom_log), test = "Wilks")
 coef(mlm_allom_log)
 exp(coef(mlm_allom_log)) ##do we need to back-transform since length is on the log scale too? how to interpret?
 
+#magnitude of treatment, age and length contrast vectors
+sqrt(t(coef(mlm_allom_log)[2,]) %*% coef(mlm_allom_log)[2,])
+sqrt(t(coef(mlm_allom_log)[3,]) %*% coef(mlm_allom_log)[3,])
+sqrt(t(coef(mlm_allom_log)[4,]) %*% coef(mlm_allom_log)[4,])
+sqrt(t(coef(mlm_allom_log)[5,]) %*% coef(mlm_allom_log)[5,])
+sqrt(t(coef(mlm_allom_log)[6,]) %*% coef(mlm_allom_log)[6,])
+sqrt(t(coef(mlm_allom_log)[7,]) %*% coef(mlm_allom_log)[7,])
+sqrt(t(coef(mlm_allom_log)[8,]) %*% coef(mlm_allom_log)[8,])
+
+
 ##coefficient of determination:
 sum(diag(cov(mlm_allom_log$fitted)))/sum(diag(cov(Morph_log[,2:7])))
 #model accounts for ~ 77% of variance
