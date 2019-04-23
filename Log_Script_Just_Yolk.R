@@ -24,6 +24,8 @@ Morph_clean_yolk <- (Morph
                      %>% filter(age != 28, age != 14)
 )
 
+
+
 save(Morph_clean_yolk, file = "Morph_yolk.R")
 
 #covariance matrix of response traits:
@@ -68,7 +70,7 @@ coef(mlm_fit1_scale_yolk)
 (coef(mlm_fit1_scale_yolk)[,2])*sd(Morph_clean_yolk$Yolk_Height)
 (coef(mlm_fit1_scale_yolk)[,3])*sd(Morph_clean_yolk$Yolk_Weight)
 
-#magnitude of treatment and age constrast vectors - but what does this really mean? DELETE?
+#magnitude of treatment and age constrast vectors
 sqrt(t(coef(mlm_fit1_scale_yolk)[2,]) %*% coef(mlm_fit1_scale_yolk)[2,])
 sqrt(t(coef(mlm_fit1_scale_yolk)[3,]) %*% coef(mlm_fit1_scale_yolk)[3,])
 sqrt(t(coef(mlm_fit1_scale_yolk)[4,]) %*% coef(mlm_fit1_scale_yolk)[4,])
@@ -78,7 +80,7 @@ sum(diag(cov(mlm_fit1_scale_yolk$fitted)))/sum(diag(cov(Morph_scale_yolk[,1:3]))
 #model accounts for 52% of variance
 
 #visualization:
-plot(allEffects(mlm_fit1_scale_yolk)) #this sort of works
+plot(allEffects(mlm_fit1_scale_yolk))
  
 #geomorph model:
 mlm_fit2_scale_yolk <- procD.lm(f1 = Morph_scale_yolk[, 1:3] ~ Treatment*age, 

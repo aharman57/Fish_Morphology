@@ -5,14 +5,46 @@ load("Morph_log.R")
 load("Morph_yolk.R")
 
 #Looking at effect of age and treatment on body morphology and yolk variables:
-length_boxplot <- (ggplot(Morph_log, aes(x=age, y=Length, colour=Treatment))
+length_boxplot <- (ggplot(Morph_clean_body, aes(x=age, y=Length, colour=Treatment))
                 +geom_boxplot())
 print(length_boxplot)
-##do for each response, change axis titles, use unlogged data
+
+weight_boxplot <- (ggplot(Morph_clean_body, aes(x=age, y=Body_Weight, colour=Treatment))
+                   +geom_boxplot())
+print(weight_boxplot)
+
+Fin_Ant_boxplot <- (ggplot(Morph_clean_body, aes(x=age, y=Fin_Anterior, colour=Treatment))
+                   +geom_boxplot())
+print(Fin_Ant_boxplot)
+
+Fin_Min_boxplot <- (ggplot(Morph_clean_body, aes(x=age, y=Fin_Min, colour=Treatment))
+                   +geom_boxplot())
+print(Fin_Min_boxplot)
+
+Fin_Post_boxplot <- (ggplot(Morph_clean_body, aes(x=age, y=Fin_Posterior, colour=Treatment))
+                   +geom_boxplot())
+print(Fin_post_boxplot)
+
+Eye_boxplot <- (ggplot(Morph_clean_body, aes(x=age, y=Eye, colour=Treatment))
+                   +geom_boxplot())
+print(Eye_boxplot)
+
+Jaw_boxplot <- (ggplot(Morph_clean_body, aes(x=age, y=Jaw, colour=Treatment))
+                   +geom_boxplot())
+print(Jaw_boxplot)
+##change axis titles
 
 yolkweight_boxplot <- (ggplot(Morph_clean_yolk, aes(x=age, y=Yolk_Weight, colour=Treatment))
                         +geom_boxplot())
 print(yolkweight_boxplot)
+
+yolkheight_boxplot <- (ggplot(Morph_clean_yolk, aes(x=age, y=Yolk_Height, colour=Treatment))
+                       +geom_boxplot())
+print(yolkheight_boxplot)
+
+yolkwidth_boxplot <- (ggplot(Morph_clean_yolk, aes(x=age, y=Yolk_Width, colour=Treatment))
+                       +geom_boxplot())
+print(yolkwidth_boxplot)
 
 
 #investigating relationships between length and other body morphology traits:
