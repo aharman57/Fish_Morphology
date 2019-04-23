@@ -159,7 +159,7 @@ sqrt(t(coef(mlm_fit1_log)[4,]) %*% coef(mlm_fit1_log)[4,])
 
 #code for coefficient of determination:
 sum(diag(cov(mlm_fit1_log$fitted)))/sum(diag(cov(Morph_log[,1:7])))
-#model accounts for 66% of variance
+#model accounts for 70% of variance
 
 #visualization:
 plot(allEffects(mlm_fit1_log))
