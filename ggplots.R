@@ -7,7 +7,7 @@ load("Morph_yolk.R")
 #Looking at effect of age and treatment on body morphology and yolk variables:
 length_boxplot <- (ggplot(Morph_clean_body, aes(x=age, y=Length, colour=Treatment))
                 +geom_boxplot()
-                +labs(x="Age (days post-hatch)", y="Body Length", colour= "Incubation Temperature \n(degrees C)"))
+                +labs(x="Age (days post-hatch)", y="Body Length (mm)", colour= "Incubation Temperature \n(degrees C)"))
 print(length_boxplot)
 
 weight_boxplot <- (ggplot(Morph_clean_body, aes(x=age, y=Body_Weight, colour=Treatment))
@@ -62,14 +62,14 @@ length_weight <- (ggplot(Morph_log, aes(x=Length, y=Body_Weight, colour=Treatmen
                      +geom_point()
                      +geom_smooth(method="lm")
                     +facet_grid(.~Treatment)
-                    +labs(x="Body Length", y="Body Weight (g)", colour= "Incubation Temperature \n(degrees C)"))
+                    +labs(x="Body Length (mm)", y="Body Weight (g)", colour= "Incubation Temperature \n(degrees C)"))
 print(length_weight)
 
 length_FinAnt <- (ggplot(Morph_log, aes(x=Length, y=Fin_Anterior, colour=Treatment))
                      +geom_point()
                      +geom_smooth(method="lm")
                      +facet_grid(.~Treatment)
-                  +labs(x="Body Length", y="Anterior Fin Width (mm)", colour= "Incubation Temperature \n(degrees C)"))
+                  +labs(x="Body Length (mm)", y="Anterior Fin Width (mm)", colour= "Incubation Temperature \n(degrees C)"))
 print(length_FinAnt)
 
 length_FinMin <- (ggplot(Morph_log, aes(x=Length, y=Fin_Min, colour=Treatment))
@@ -83,21 +83,21 @@ length_FinPost <- (ggplot(Morph_log, aes(x=Length, y=Fin_Posterior, colour=Treat
                   +geom_point()
                   +geom_smooth(method="lm")
                   +facet_grid(.~Treatment)
-                  +labs(x="Body Length", y="Posterior Fin Width (mm)", colour= "Incubation Temperature \n(degrees C)"))
+                  +labs(x="Body Length (mm)", y="Posterior Fin Width (mm)", colour= "Incubation Temperature \n(degrees C)"))
 print(length_FinPost)
 
 length_eye <- (ggplot(Morph_log, aes(x=Length, y=Eye, colour=Treatment))
                   +geom_point()
                   +geom_smooth(method="lm")
                   +facet_grid(.~Treatment)
-               +labs(x="Body Length", y="Eye Diameter (mm)", colour= "Incubation Temperature \n(degrees C)"))
+               +labs(x="Body Length (mm)", y="Eye Diameter (mm)", colour= "Incubation Temperature \n(degrees C)"))
 print(length_eye)
 
 length_jaw <- (ggplot(Morph_log, aes(x=Length, y=Jaw, colour=Treatment))
                   +geom_point()
                   +geom_smooth(method="lm")
                   +facet_grid(.~Treatment)
-                  +labs(x="Body Length", y="Jaw Gape (um)", colour= "Incubation Temperature \n(degrees C)"))
+                  +labs(x="Body Length (mm)", y="Jaw Gape (um)", colour= "Incubation Temperature \n(degrees C)"))
 print(length_jaw)
 
 #Investigating relationship between body weight and yolk across treatments and ages
