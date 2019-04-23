@@ -49,7 +49,7 @@ coef(mlm_fit1_scale_yolkbody)
 (coef(mlm_fit1_scale_yolkbody)[,1])*sd(Morph_clean_body_yolk$Body_Weight)
 (coef(mlm_fit1_scale_yolkbody)[,2])*sd(Morph_clean_body_yolk$Yolk_Weight)
 
-#magnitude of treatment and age constrast vectors
+#magnitude of treatment and age contrast vectors
 sqrt(t(coef(mlm_fit1_scale_yolkbody)[2,]) %*% coef(mlm_fit1_scale_yolkbody)[2,])
 sqrt(t(coef(mlm_fit1_scale_yolkbody)[3,]) %*% coef(mlm_fit1_scale_yolkbody)[3,])
 sqrt(t(coef(mlm_fit1_scale_yolkbody)[4,]) %*% coef(mlm_fit1_scale_yolkbody)[4,])
