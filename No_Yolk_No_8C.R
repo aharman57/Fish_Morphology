@@ -104,7 +104,7 @@ sqrt(t(coef(mlm_fit1_log_No_8C)[4,]) %*% coef(mlm_fit1_log_No_8C)[4,])
 
 #code for coefficient of determination:
 sum(diag(cov(mlm_fit1_log_No_8C$fitted)))/sum(diag(cov(Morph_log_No_8C[,1:7])))
-#model accounts for 68% of variance? seems high
+#model accounts for 68% of variance
 
 par(mfrow=c(1,1),mar=c(2,3,1.5,1),mgp=c(2,1,0))
 
