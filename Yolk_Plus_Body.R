@@ -45,6 +45,10 @@ mlm_fit1_scale_yolkbody <- lm(as.matrix(Morph_scale_body_yolk[,1:2]) ~ Treatment
 summary(manova(mlm_fit1_scale_yolkbody), test = "Wilks")
 coef(mlm_fit1_scale_yolkbody)
 
+#back-transforming coefficients:
+(coef(mlm_fit1_scale_yolkbody)[,1])*sd(Morph_clean_body_yolk$Body_Weight)
+(coef(mlm_fit1_scale_yolkbody)[,2])*sd(Morph_clean_body_yolk$Yolk_Weight)
+
 #magnitude of treatment and age constrast vectors
 sqrt(t(coef(mlm_fit1_scale_yolkbody)[2,]) %*% coef(mlm_fit1_scale_yolkbody)[2,])
 sqrt(t(coef(mlm_fit1_scale_yolkbody)[3,]) %*% coef(mlm_fit1_scale_yolkbody)[3,])
@@ -67,10 +71,6 @@ plot_model(lm_Yolk_Weight, type="diag", terms=c("age","Treatment"))
 
 ## All-Effects plot
 plot(allEffects(mlm_fit1_scale_yolkbody))
-
-# Separates the predictors, can't seem to separate the response... always faceted??
-plot(effect(mod=mlm_fit1_scale_yolkbody, term = "age"))
-plot(effect(mod=mlm_fit1_scale_yolkbody, term = "Treatment"))
 
 # SJ plot - predictions
 plot_model(lm_Body_Weight, type="pred", terms=c("age","Treatment"))
