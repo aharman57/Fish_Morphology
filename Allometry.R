@@ -60,7 +60,7 @@ par(mfrow=c(1,1),mar=c(2,3,1.5,1),mgp=c(2,1,0))
 plot(effect(mod=mlm_allom_log, term = "Treatment"))
 plot(effect(mod=mlm_allom_log, term = "age"))
 plot(effect(mod=mlm_allom_log, term = "Length"))
-plot(effect(mod=mlm_allom_log, term = "Treatment*Length")) ##this tells us about hwo temperature influences allometry
+plot(effect(mod=mlm_allom_log, term = "Treatment*Length")) ##this tells us about how temperature influences allometry
 
 #permutation test using geomorph
 mlm_allom_geo <- procD.lm(f1 = Morph_log[, 2:7] ~ Treatment*age*Length, 
