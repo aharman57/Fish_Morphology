@@ -92,8 +92,8 @@ coef(mlm_fit2_scale_yolk)
 ##### Permutations #####
 
 ## Treatment
-yolk_treatment_perm <- rep( NA, 1000 )
-for(i in 1:1000){ 
+yolk_treatment_perm <- rep( NA, 1999 )
+for(i in 1:1999){ 
   yolk_treatment_perm[i] <- summary( manova(lm( as.matrix( Morph_scale_yolk[ sample(nrow(Morph_scale_yolk), nrow(Morph_scale_yolk), replace=F) ,1:2] ) ~ Morph_scale_yolk$Treatment*Morph_scale_yolk$age ) ))$stats[1,2]}
 hist(yolk_treatment_perm, xlim=c(-1,1))
 abline( v=summary( manova( mlm_fit1_scale_yolk ))$stats[1,2], col="red")
@@ -101,8 +101,8 @@ abline( v=summary( manova( mlm_fit1_scale_yolk ))$stats[1,2], col="red")
 mean(c(yolk_treatment_perm >= summary( manova( mlm_fit1_scale_yolk))$stats[1,2], 1))
 
 ## Age
-yolk_age_perm <- rep( NA, 1000 )
-for(i in 1:1000){ 
+yolk_age_perm <- rep( NA, 1999 )
+for(i in 1:1999){ 
   yolk_age_perm[i] <- summary( manova(lm( as.matrix( Morph_scale_yolk[ sample(nrow(Morph_scale_yolk), nrow(Morph_scale_yolk), replace=F) ,1:2] ) ~ Morph_scale_yolk$Treatment*Morph_scale_yolk$age ) ))$stats[2,2]}
 hist(yolk_age_perm, xlim=c(-1.5,1.5))
 abline( v=summary( manova( mlm_fit1_scale_yolk ))$stats[2,2], col="red")
@@ -110,8 +110,8 @@ abline( v=summary( manova( mlm_fit1_scale_yolk ))$stats[2,2], col="red")
 mean(c(yolk_age_perm >= summary( manova( mlm_fit1_scale_yolk ))$stats[2,2], 1)) ## same value as for treatment??
 
 ## Interaction
-yolk_interact_perm <- rep( NA, 1000 )
-for(i in 1:1000){ 
+yolk_interact_perm <- rep( NA, 1999 )
+for(i in 1:1999){ 
   yolk_interact_perm[i] <- summary( manova(lm( as.matrix( Morph_scale_yolk[ sample(nrow(Morph_scale_yolk), nrow(Morph_scale_yolk), replace=F) ,1:2] ) ~ Morph_scale_yolk$Treatment*Morph_scale_yolk$age ) ))$stats[3,2]}
 hist(yolk_interact_perm, xlim=c(-0.5,0.5))
 abline( v=summary( manova( mlm_fit1_scale_yolk ))$stats[3,2], col="red")
