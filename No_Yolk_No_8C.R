@@ -97,7 +97,7 @@ summary(manova(mlm_fit1_log_No_8C), test = "Wilks")
 coef(mlm_fit1_log_No_8C)
 exp(coef(mlm_fit1_log_No_8C)) #back-transform to get biologically relevant effects
 
-#magnitude of treatment and age constrast vectors - but what does this really mean?
+#magnitude of treatment and age constrast vectors:
 sqrt(t(coef(mlm_fit1_log_No_8C)[2,]) %*% coef(mlm_fit1_log_No_8C)[2,])
 sqrt(t(coef(mlm_fit1_log_No_8C)[3,]) %*% coef(mlm_fit1_log_No_8C)[3,])
 sqrt(t(coef(mlm_fit1_log_No_8C)[4,]) %*% coef(mlm_fit1_log_No_8C)[4,])
