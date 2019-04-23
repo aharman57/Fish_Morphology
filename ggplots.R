@@ -48,16 +48,43 @@ print(yolkwidth_boxplot)
 
 
 #investigating relationships between length and other body morphology traits:
-length_vs_FinAnt <- (ggplot(Morph_log, aes(x=Length, y=Fin_Anterior, colour=Treatment))
-                     +geom_point()
-                     +geom_smooth(method="lm")
-                     +facet_grid(.~Treatment))
-print(length_vs_FinAnt)
-length_vs_weight <- (ggplot(Morph_log, aes(x=Length, y=Body_Weight, colour=Treatment))
+
+length_weight <- (ggplot(Morph_log, aes(x=Length, y=Body_Weight, colour=Treatment))
                      +geom_point()
                      +facet_grid(.~Treatment)
                      +geom_smooth(method="lm"))
-print(length_vs_weight)
+print(length_weight)
+
+length_FinAnt <- (ggplot(Morph_log, aes(x=Length, y=Fin_Anterior, colour=Treatment))
+                     +geom_point()
+                     +geom_smooth(method="lm")
+                     +facet_grid(.~Treatment))
+print(length_FinAnt)
+
+length_FinMin <- (ggplot(Morph_log, aes(x=Length, y=Fin_Min, colour=Treatment))
+                  +geom_point()
+                  +geom_smooth(method="lm")
+                  +facet_grid(.~Treatment))
+print(length_FinMin)
+
+length_FinPost <- (ggplot(Morph_log, aes(x=Length, y=Fin_Posterior, colour=Treatment))
+                  +geom_point()
+                  +geom_smooth(method="lm")
+                  +facet_grid(.~Treatment))
+print(length_FinPost)
+
+length_eye <- (ggplot(Morph_log, aes(x=Length, y=Eye, colour=Treatment))
+                  +geom_point()
+                  +geom_smooth(method="lm")
+                  +facet_grid(.~Treatment))
+print(length_eye)
+
+length_jaw <- (ggplot(Morph_log, aes(x=Length, y=Jaw, colour=Treatment))
+                  +geom_point()
+                  +geom_smooth(method="lm")
+                  +facet_grid(.~Treatment))
+print(length_jaw)
+
 #do all and see which ones are most different
 
 #Investigating relationship between body weight and yolk across treatments and ages
